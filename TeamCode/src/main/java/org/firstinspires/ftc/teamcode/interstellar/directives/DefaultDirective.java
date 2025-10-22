@@ -18,7 +18,7 @@ public class DefaultDirective extends Directive {
     public void stop(boolean interrupted) {}
 
     @Override
-    public boolean isFinished() {
+    public final boolean isFinished() {
         return false;
     }
 }

@@ -30,7 +30,7 @@ public final class LeverTransfer extends Subsystem {
 
 	@Override
 	public void update() {
-
+		updateServoPosition();
 	}
 
 	public void setLeverPositionIsUp(boolean isUpPosition) {

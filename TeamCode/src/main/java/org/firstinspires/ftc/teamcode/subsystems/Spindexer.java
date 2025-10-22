@@ -5,12 +5,11 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.teamcode.directives.DefaultSpindexer;
 import org.firstinspires.ftc.teamcode.interstellar.Subsystem;
-import org.firstinspires.ftc.teamcode.interstellar.directives.SetPosition;
 import org.firstinspires.ftc.teamcode.interstellar.hardwaremapwrappers.StellarServo;
 
 public final class Spindexer extends Subsystem {
-	private Gamepad gamepad1, gamepad2;
 	private final static double DEGREES_TO_SERVO = 1.0 / 360.0;
 	private int selectedSegment = 0;
 	private boolean isIntakePosition = true;
@@ -20,73 +19,47 @@ public final class Spindexer extends Subsystem {
 	private StellarServo spindexer;
 	private DigitalChannel beamBreak;
 	private ColorSensor colorSensor;
-	private ButtonMap xButtonMap, yButtonMap, bButtonMap, aButtonMap;
 
 	@Override
 	public void init(HardwareMap hardwareMap) {
 		spindexer = new StellarServo(hardwareMap, "spindexer");
-		beamBreak = hardwareMap.get(DigitalChannel.class, "beamBreak");
+		beamBreak = hardwareMap.get(DigitalChannel.class, "beamBreak"); //unused
 		colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
 	}
 
 	@Override
 	public void setGamepads(Gamepad gamepad1, Gamepad gamepad2) {
-		this.gamepad1 = gamepad1;
-		this.gamepad2 = gamepad2;
-
-		//todo: replace BooleanSupplier with Condition
-
-		xButtonMap = new ButtonMap(gamepad1, ButtonMap.TriggerType.WHILE_PRESSED, ButtonMap.Button.X);
-		yButtonMap = new ButtonMap(gamepad1, ButtonMap.TriggerType.WHILE_PRESSED, ButtonMap.Button.Y);
-		bButtonMap = new ButtonMap(gamepad1, ButtonMap.TriggerType.WHILE_PRESSED, ButtonMap.Button.B);
-		aButtonMap = new ButtonMap(gamepad1, ButtonMap.TriggerType.ON_INITIAL_PRESS, ButtonMap.Button.A);
+		setDefaultDirective(new DefaultSpindexer(this, gamepad1));
 	}
 
 	@Override
 	public void update() {
-		//todo: stop command spam and buttonMap spam
+		updateServoPosition();
+	}
 
-		/*
-		Trigger.handle(() -> {
-			selectedSegment = 0;
-		});
-		*/
-		xButtonMap.handle(() -> {
-			selectedSegment = 0;
-		});
-		yButtonMap.handle(() -> {
-			selectedSegment = 1;
-		});
-		bButtonMap.handle(() -> {
-			selectedSegment = 2;
-		});
+	public void setSelectedSegment(int selectedSegment) {
+		this.selectedSegment = selectedSegment;
+	}
 
-		aButtonMap.handle(() -> {
-			isIntakePosition = !isIntakePosition;
-		});
+	public void toggleIsIntakePosition() {
+		isIntakePosition = !isIntakePosition;
+	}
 
-		new SetPosition(
-				spindexer,
-				isIntakePosition ?
-						INTAKE_DEGREE_POSITIONS[selectedSegment] * DEGREES_TO_SERVO :
-						TRANSFER_DEGREE_POSITIONS[selectedSegment] * DEGREES_TO_SERVO
-		).interruptible(true).requires(this).schedule();
-
-		/*
+	public void updateServoPosition() {
 		spindexer.setPosition(
 				isIntakePosition ?
 						INTAKE_DEGREE_POSITIONS[selectedSegment] * DEGREES_TO_SERVO :
 						TRANSFER_DEGREE_POSITIONS[selectedSegment] * DEGREES_TO_SERVO
-		);*/
+		);
 	}
 
 	@Override
 	public String getTelemetryData() {
 		return String.format(
 				"selectedSegment: %d\n" +
-						"isIntakePosition: %b\n" +
-						"beamBreak: %b\n" +
-						"colorSensorRGB: %d, %d, %d",
+				"isIntakePosition: %b\n" +
+				"beamBreak: %b\n" +
+				"colorSensorRGB: %d, %d, %d",
 				selectedSegment, isIntakePosition, beamBreak.getState(),
 				colorSensor.red(), colorSensor.green(), colorSensor.blue());
 	}

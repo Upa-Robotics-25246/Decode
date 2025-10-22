@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.interstellar.directives.SetPower;
+import org.firstinspires.ftc.teamcode.directives.DefaultIntake;
 import org.firstinspires.ftc.teamcode.interstellar.hardwaremapwrappers.StellarDcMotor;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -11,7 +11,6 @@ import org.firstinspires.ftc.teamcode.interstellar.Subsystem;
 
 
 public final class Intake extends Subsystem {
-	private Gamepad gamepad1, gamepad2;
 	private StellarDcMotor intake;
 	private double intakeSpeed = 0;
 
@@ -22,24 +21,20 @@ public final class Intake extends Subsystem {
 
 	@Override
 	public void setGamepads(Gamepad gamepad1, Gamepad gamepad2) {
-		this.gamepad1 = gamepad1;
-		this.gamepad2 = gamepad2;
+		setDefaultDirective(new DefaultIntake(this, gamepad1));
 	}
 
 	@Override
 	public void update() {
-		//todo: currently floods too many directives
-		if (gamepad1.right_trigger > 0.05) {
-			intakeSpeed = gamepad1.right_trigger;
-		} else if (gamepad1.left_trigger > 0.05) {
-			intakeSpeed = -gamepad1.left_trigger;
-		} else {
-			intakeSpeed = 0;
-		}
+		setMotorSpeed();
+	}
 
-		new SetPower(intake, intakeSpeed).requires(this).schedule();
+	public void setIntakeSpeed(double intakeSpeed) {
+		this.intakeSpeed = intakeSpeed;
+	}
 
-		//intake.setPower(intakeSpeed);
+	public void setMotorSpeed() {
+		intake.setPower(intakeSpeed);
 	}
 
 	@Override

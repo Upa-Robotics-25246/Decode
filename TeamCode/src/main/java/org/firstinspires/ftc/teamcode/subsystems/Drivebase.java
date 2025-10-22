@@ -19,6 +19,7 @@ public final class Drivebase extends Subsystem {
 
     @Override
     public void init(HardwareMap hardwareMap) {
+        //todo: make a default directive
         leftFrontDrive = hardwareMap.get(DcMotorEx.class, "leftFront");
         leftBackDrive = hardwareMap.get(DcMotorEx.class, "leftBack");
         rightFrontDrive = hardwareMap.get(DcMotorEx.class, "rightFront");

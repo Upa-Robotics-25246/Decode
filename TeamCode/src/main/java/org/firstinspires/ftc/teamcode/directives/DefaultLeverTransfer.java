@@ -12,9 +12,6 @@ public class DefaultLeverTransfer extends DefaultDirective {
 	public DefaultLeverTransfer(LeverTransfer leverTransfer, Gamepad gamepad) {
         super(leverTransfer);
 
-		setInterruptible(true);
-		setRequires(leverTransfer);
-
 		new Trigger(
 				new StatefulCondition(
 						new GamepadButton(gamepad, GamepadButton.Button.DPAD_UP),
