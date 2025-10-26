@@ -56,8 +56,7 @@ public class riptideUtil {
 
     public static double LENS_FOCAL_LEN_INCHES = 0.15748;
     public static double SENSOR_HEIGHT = 0.086;
-    public static double HORIZ_FOV = 55;
-    public static double VERT_FOV = 55;
+    public static double CAM_FOV = 55;
 
     public static double MOTOR_POS_CONST = 1; // needs tuning
 

@@ -35,7 +35,7 @@ public class TurnTable {
 
         // this is to try to stop oscillation, if the difference in angle < this value
         // the pid will return 0
-        tablePID.setDeadZone(0);
+        tablePID.setDeadZone(2);
     }
 
     public void setPID(double kp, double ki, double kd) {

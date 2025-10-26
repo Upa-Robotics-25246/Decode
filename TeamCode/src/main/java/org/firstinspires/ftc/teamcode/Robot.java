@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Modules.Camera;
 import org.firstinspires.ftc.teamcode.Modules.Drivetrain;
 import org.firstinspires.ftc.teamcode.Modules.Slides;
 import org.firstinspires.ftc.teamcode.Modules.TurnTable;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 public class Robot {
 
@@ -20,7 +22,7 @@ public class Robot {
         this.hardwareMap = hardwareMap;
 
         drivetrain = new Drivetrain(hardwareMap);
-        camera = hardwareMap.get(Camera.class, "camera");
+        camera = new Camera(hardwareMap.get(WebcamName.class, "Webcam 1"));
         table = new TurnTable(2, 0, 0);
     }
 

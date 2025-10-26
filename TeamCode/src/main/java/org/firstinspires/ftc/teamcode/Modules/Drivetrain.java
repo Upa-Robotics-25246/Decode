@@ -50,8 +50,8 @@ public class Drivetrain {
 
         blWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         flWheel.setDirection(DcMotorSimple.Direction.REVERSE);
-        frWheel.setDirection(DcMotorSimple.Direction.FORWARD);
-        brWheel.setDirection(DcMotorSimple.Direction.FORWARD);
+        frWheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        brWheel.setDirection(DcMotorSimple.Direction.REVERSE);
 
         brWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         blWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

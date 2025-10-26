@@ -60,6 +60,7 @@ public class Camera {
     VisionPortal vision_portal;
     ArrayList<AprilTagDetection> detections;
     ArrayList<ArrayList<Double>> blobs = new ArrayList<>();
+    String goalTag;
     public enum processors_enabled {
         NONE,
         TAG,
@@ -124,6 +125,14 @@ public class Camera {
                 .build();
     }
 
+    public void setGoalTag(String goalTag) {
+        this.goalTag = goalTag;
+    }
+
+    public String getGoalTag() {
+        return goalTag;
+    }
+
     public ArrayList<AprilTagDetection> getTagDetections() {
         detections = tag_processor.getDetections();
         detections.removeIf(detection -> System.nanoTime() - detection.frameAcquisitionNanoTime > riptideUtil.DETECTION_TIMEOUT);
@@ -180,7 +189,18 @@ public class Camera {
         return blobs;
     }
 
+    public AprilTagDetection getGoalApriltag() {
+        detections = getTagDetections();
+        for(AprilTagDetection detection : detections) {
+            if(detection.metadata.name.equals(goalTag)) {
+                return detection;
+            }
+        }
+        return null;
+    }
+
     public EditablePose2D getGoalApriltagLocation() {
+        detections = getTagDetections();
         for(AprilTagDetection detection : detections) {
             if (!detection.metadata.name.contains("Obelisk")) {
                 return new EditablePose2D(
@@ -202,16 +222,15 @@ public class Camera {
         /*
          * Gets the angle of the april tag relative to the camera.
          */
-        double distance = this.getAprilTagDistance(tag);
 
         // essentially setting the origin to the center of the screen
         double delta_x = (double) riptideUtil.CAMERA_WIDTH / 2 - tag.center.x;
 
         // relative to the camera
-        double horizontal_distance = delta_x * riptideUtil.HORIZ_FOV / riptideUtil.CAMERA_WIDTH;
+        double horizontal_angle = delta_x * riptideUtil.CAM_FOV / riptideUtil.CAMERA_WIDTH;
 
         //the angle of the april tag relative to the camera
-        return Math.atan(horizontal_distance/distance);
+        return horizontal_angle;
     }
 
     public EditablePose2D findNearestArtifact() {
@@ -245,8 +264,8 @@ public class Camera {
         double delta_y = (double) riptideUtil.CAMERA_HEIGHT / 2 - largest_contour.get(1);
 
         // relative to the camera
-        double horizontal_distance = delta_x * riptideUtil.HORIZ_FOV / riptideUtil.CAMERA_WIDTH;
-        double vertical_distance = delta_y * riptideUtil.VERT_FOV / riptideUtil.CAMERA_HEIGHT;
+        double horizontal_distance = delta_x * riptideUtil.CAM_FOV / riptideUtil.CAMERA_WIDTH;
+        double vertical_distance = delta_y * riptideUtil.CAM_FOV / riptideUtil.CAMERA_HEIGHT;
 
         double horizontal_angle_error = Math.atan(horizontal_distance/distance);
         double vertical_angle_error = Math.atan(vertical_distance/distance);

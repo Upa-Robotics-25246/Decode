@@ -12,15 +12,14 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import java.util.ArrayList;
 
 
-@Config
 @TeleOp(name = "Meet 0 FSM")
 public class Meet0FSM extends LinearOpMode {
 
     Robot robot;
 
     boolean hasrun = false;
-    boolean align = false;
-    double kp = 0, ki = 0, kd = 0;
+    public static boolean align = false;
+    public static double kp = 0, ki = 0, kd = 0;
     String goalTag = "Red Goal";
 
     public enum states{
@@ -33,9 +32,9 @@ public class Meet0FSM extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        robot = new Robot(hardwareMap);
 
         hasrun = false;
-        align = false;
         telemetry.addData("Robot status:", "succesfully initiated");
         telemetry.update();
 
@@ -47,13 +46,11 @@ public class Meet0FSM extends LinearOpMode {
         telemetry.update();
 
         while(opModeIsActive()){
-            robot.getTable().setPID(kp, ki, kd);
-            if (gamepad1.a) {
-                align = true;
-            }
-            telemetry.addData("Current State:", currentState);
-            telemetry.update();
+            FSM();
             fieldCentricDrive();
+            telemetry.addData("Current State:", currentState);
+            telemetry.addData("Robot angle", robot.getDrivetrain().getRobotHeading(AngleUnit.DEGREES));
+            telemetry.update();
         }
     }
 
@@ -116,31 +113,11 @@ public class Meet0FSM extends LinearOpMode {
         }
     }
 
-    private double getTagAlignVal() {
-        ArrayList<AprilTagDetection> detections = robot.getCamera().getTagDetections();
-        AprilTagDetection goalTag = null;
-        for (AprilTagDetection detection : detections) {
-            if(detection.metadata.name.equals(goalTag) || !detection.metadata.name.contains("Obelisk")) {
-                goalTag = detection;
-            }
-        }
-
-        if (goalTag == null) { align = false; return 0; }
-
-        double rx = robot.getTable().alignTag(robot.getCamera().getTagHorizontalAngle(goalTag));
-
-        if(rx == 0) {
-            align = false;
-        }
-        return rx;
-    }
-
     private void fieldCentricDrive() {
         double slowdown = gamepad1.right_trigger > 0 ? 0.25 : 1;
         double y = -gamepad1.left_stick_y * slowdown;
         double x = gamepad1.left_stick_x * 1.1 * slowdown;
-        double alignVal = getTagAlignVal();
-        double rx = (align) ? alignVal : gamepad1.right_stick_x * slowdown;
+        double rx = gamepad1.right_stick_x * slowdown;
 
         double heading = robot.getDrivetrain().getRobotHeading(AngleUnit.RADIANS);
 
