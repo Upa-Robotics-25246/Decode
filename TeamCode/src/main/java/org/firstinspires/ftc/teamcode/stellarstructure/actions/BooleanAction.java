@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.interstellar.actions;
+package org.firstinspires.ftc.teamcode.stellarstructure.actions;
 
 @FunctionalInterface
 public interface BooleanAction {

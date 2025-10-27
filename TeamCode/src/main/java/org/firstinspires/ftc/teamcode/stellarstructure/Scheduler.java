@@ -1,6 +1,7 @@
-package org.firstinspires.ftc.teamcode.interstellar;
+package org.firstinspires.ftc.teamcode.stellarstructure;
 
-import org.firstinspires.ftc.teamcode.interstellar.directives.Directive;
+import org.firstinspires.ftc.teamcode.stellarstructure.runnables.Runnable;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -15,38 +16,37 @@ public class Scheduler {
 	}
 
 	private final List<Subsystem> subsystems = new ArrayList<>();
-	private final List<Directive> runningDirectives = new ArrayList<>();
+	private final List<Runnable> activeRunnables = new ArrayList<>();
 	private final List<Trigger> activeTriggers = new ArrayList<>();
 
 	public void addSubsystem(Subsystem subsystem) {
 		subsystems.add(subsystem);
 	}
 
-	public void schedule(Directive directiveToSchedule) {
+	public void schedule(Runnable activeRunnables) {
 		// prevent scheduling of the same directive multiple times
-		if (runningDirectives.contains(directiveToSchedule)) {
+		if (this.activeRunnables.contains(activeRunnables)) {
 			return;
 		}
-
 
 		boolean didInterrupt = false;
 
 		// for every running directive
-		for (Iterator<Directive> iterator = runningDirectives.iterator(); iterator.hasNext();) {
-			Directive runningDirective = iterator.next();
+		for (Iterator<Runnable> iterator = this.activeRunnables.iterator(); iterator.hasNext();) {
+			Runnable activeRunnable = iterator.next();
 
 			// check for conflicts
 			CONFLICT_CHECK:
 			// for every subsystem required by the new directive
-			for (Subsystem requiredByNew : directiveToSchedule.getRequiredSubsystems()) {
+			for (Subsystem requiredByNew : activeRunnables.getRequiredSubsystems()) {
 				// for every subsystem required by the running directive
-				for (Subsystem requiredByRunning : runningDirective.getRequiredSubsystems()) {
+				for (Subsystem requiredByRunning : activeRunnable.getRequiredSubsystems()) {
 					if (requiredByNew == requiredByRunning) {
 						// CONFLICT FOUND!
 
-						if (runningDirective.isInterruptible()) {
+						if (activeRunnable.isInterruptible()) {
 							// if the running command is interruptible, stop it and remove it.
-							runningDirective.stop(true);
+							activeRunnable.stop(true);
 							iterator.remove();
 							didInterrupt = true;
 						} else {
@@ -61,8 +61,8 @@ public class Scheduler {
 			}
 		}
 
-		runningDirectives.add(directiveToSchedule); // add to running directives
-		directiveToSchedule.start(didInterrupt); // start directive and pass hadToInterruptToStart status
+		this.activeRunnables.add(activeRunnables); // add to running directives
+		activeRunnables.start(didInterrupt); // start directive and pass hadToInterruptToStart status
 	}
 
 	public void addTrigger(Trigger trigger) {
@@ -81,19 +81,20 @@ public class Scheduler {
 		}
 
 		// update directives and remove finished directives
-		for (Iterator<Directive> iterator = runningDirectives.iterator(); iterator.hasNext();) {
-			Directive directive = iterator.next();
-			if (directive.isFinished()) {
-				directive.stop(false);
+		for (Iterator<Runnable> iterator = activeRunnables.iterator(); iterator.hasNext();) {
+			Runnable runnable = iterator.next();
+			if (runnable.isFinished()) {
+				runnable.stop(false);
+				runnable.setHasFinished(true);
 				iterator.remove();
 			} else {
-				directive.update();
+				runnable.update();
 			}
 		}
 
 		// if subsystem isn't being used, then schedule default directive
 		for (Subsystem subsystem : subsystems) {
-			Directive defaultDirective = subsystem.getDefaultDirective();
+			Runnable defaultDirective = subsystem.getDefaultDirective();
 
 			if (defaultDirective != null && !isSubsystemInUse(subsystem)) {
 				schedule(defaultDirective);
@@ -103,10 +104,10 @@ public class Scheduler {
 
 	private boolean isSubsystemInUse(Subsystem subsystemToCheck) {
 		//for every running directive
-		for (Directive runningDirective : runningDirectives) {
+		for (Runnable activeRunnable : activeRunnables) {
 			//check if running directive requires subsystem
 			//includes the default directive itself but that's fine for this application
-			for (Subsystem requiredSubsystem : runningDirective.getRequiredSubsystems()) {
+			for (Subsystem requiredSubsystem : activeRunnable.getRequiredSubsystems()) {
 				if (requiredSubsystem == subsystemToCheck) {
 					return true;
 				}
@@ -121,11 +122,11 @@ public class Scheduler {
 		activeTriggers.clear();
 
 		//stop all directives
-		for (Directive directive : runningDirectives) {
-			directive.stop(true);
+		for (Runnable runnable : activeRunnables) {
+			runnable.stop(true);
 		}
 
 		//clear all running directives
-		runningDirectives.clear();
+		activeRunnables.clear();
 	}
 }

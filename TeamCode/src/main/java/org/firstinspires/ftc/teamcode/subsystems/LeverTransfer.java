@@ -3,10 +3,10 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.directives.DefaultLeverTransfer;
-import org.firstinspires.ftc.teamcode.interstellar.hardwaremapwrappers.StellarServo;
+import org.firstinspires.ftc.teamcode.stellarstructure.hardwaremapwrappers.StellarServo;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.teamcode.interstellar.Subsystem;
+import org.firstinspires.ftc.teamcode.stellarstructure.Subsystem;
 
 public final class LeverTransfer extends Subsystem {
 	private StellarServo leverTransfer;

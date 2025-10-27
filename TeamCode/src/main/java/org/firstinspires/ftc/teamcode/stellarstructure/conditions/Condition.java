@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.interstellar.conditions;
+package org.firstinspires.ftc.teamcode.stellarstructure.conditions;
 
 @FunctionalInterface
 public interface Condition {

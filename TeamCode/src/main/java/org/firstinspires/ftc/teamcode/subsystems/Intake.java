@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.directives.DefaultIntake;
-import org.firstinspires.ftc.teamcode.interstellar.hardwaremapwrappers.StellarDcMotor;
+import org.firstinspires.ftc.teamcode.stellarstructure.hardwaremapwrappers.StellarDcMotor;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.teamcode.interstellar.Subsystem;
+import org.firstinspires.ftc.teamcode.stellarstructure.Subsystem;
 
 
 public final class Intake extends Subsystem {

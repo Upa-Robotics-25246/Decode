@@ -2,10 +2,10 @@ package org.firstinspires.ftc.teamcode.directives;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.teamcode.interstellar.Trigger;
-import org.firstinspires.ftc.teamcode.interstellar.conditions.GamepadButton;
-import org.firstinspires.ftc.teamcode.interstellar.conditions.StatefulCondition;
-import org.firstinspires.ftc.teamcode.interstellar.directives.DefaultDirective;
+import org.firstinspires.ftc.teamcode.stellarstructure.Trigger;
+import org.firstinspires.ftc.teamcode.stellarstructure.conditions.GamepadButton;
+import org.firstinspires.ftc.teamcode.stellarstructure.conditions.StatefulCondition;
+import org.firstinspires.ftc.teamcode.stellarstructure.runnables.DefaultDirective;
 import org.firstinspires.ftc.teamcode.subsystems.Spindexer;
 
 public class DefaultSpindexer extends DefaultDirective {

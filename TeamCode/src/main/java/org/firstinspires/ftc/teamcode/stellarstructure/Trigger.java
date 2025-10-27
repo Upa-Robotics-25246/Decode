@@ -1,7 +1,7 @@
-package org.firstinspires.ftc.teamcode.interstellar;
+package org.firstinspires.ftc.teamcode.stellarstructure;
 
-import org.firstinspires.ftc.teamcode.interstellar.actions.Action;
-import org.firstinspires.ftc.teamcode.interstellar.conditions.Condition;
+import org.firstinspires.ftc.teamcode.stellarstructure.actions.Action;
+import org.firstinspires.ftc.teamcode.stellarstructure.conditions.Condition;
 
 public class Trigger {
 	private final Condition condition;

@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.teamcode.interstellar.Subsystem;
+import org.firstinspires.ftc.teamcode.stellarstructure.Subsystem;
 
 public final class Drivebase extends Subsystem {
     private Gamepad gamepad1, gamepad2;

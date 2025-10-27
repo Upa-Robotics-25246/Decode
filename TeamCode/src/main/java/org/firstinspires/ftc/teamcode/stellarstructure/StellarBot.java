@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.interstellar;
+package org.firstinspires.ftc.teamcode.stellarstructure;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -6,10 +6,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 //Stellar, Wormholes, Docking Procedure, Murphy's Law, Procedure
 
-public class InterstellarBot {
+public class StellarBot {
 	protected final Subsystem[] subsystems;
 
-	public InterstellarBot(Subsystem... subsystems) {
+	public StellarBot(Subsystem... subsystems) {
 		this.subsystems = subsystems;
 
 		//add subsystems to scheduler

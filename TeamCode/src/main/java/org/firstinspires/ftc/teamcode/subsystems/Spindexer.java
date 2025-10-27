@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.directives.DefaultSpindexer;
-import org.firstinspires.ftc.teamcode.interstellar.Subsystem;
-import org.firstinspires.ftc.teamcode.interstellar.hardwaremapwrappers.StellarServo;
+import org.firstinspires.ftc.teamcode.stellarstructure.Subsystem;
+import org.firstinspires.ftc.teamcode.stellarstructure.hardwaremapwrappers.StellarServo;
 
 public final class Spindexer extends Subsystem {
 	private final static double DEGREES_TO_SERVO = 1.0 / 360.0;

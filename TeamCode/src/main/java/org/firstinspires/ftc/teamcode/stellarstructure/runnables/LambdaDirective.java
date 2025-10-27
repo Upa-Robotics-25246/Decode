@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.interstellar.directives;
+package org.firstinspires.ftc.teamcode.stellarstructure.runnables;
 
 import androidx.annotation.NonNull;
 
-import org.firstinspires.ftc.teamcode.interstellar.actions.Action;
-import org.firstinspires.ftc.teamcode.interstellar.actions.BooleanAction;
-import org.firstinspires.ftc.teamcode.interstellar.Subsystem;
+import org.firstinspires.ftc.teamcode.stellarstructure.actions.Action;
+import org.firstinspires.ftc.teamcode.stellarstructure.actions.BooleanAction;
+import org.firstinspires.ftc.teamcode.stellarstructure.Subsystem;
 
 import java.util.function.BooleanSupplier;
 

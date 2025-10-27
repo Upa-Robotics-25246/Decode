@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode.interstellar.directives;
+package org.firstinspires.ftc.teamcode.stellarstructure.runnables;
 
-import org.firstinspires.ftc.teamcode.interstellar.Subsystem;
+import org.firstinspires.ftc.teamcode.stellarstructure.Subsystem;
 
 public class DefaultDirective extends Directive {
     public DefaultDirective(Subsystem subsystem) {

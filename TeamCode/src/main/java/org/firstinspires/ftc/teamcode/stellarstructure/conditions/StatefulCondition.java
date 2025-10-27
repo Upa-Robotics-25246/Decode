@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.interstellar.conditions;
+package org.firstinspires.ftc.teamcode.stellarstructure.conditions;
 
 public class StatefulCondition implements Condition {
 	public enum Edge {

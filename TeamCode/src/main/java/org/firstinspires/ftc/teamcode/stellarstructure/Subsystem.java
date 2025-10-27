@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.interstellar;
+package org.firstinspires.ftc.teamcode.stellarstructure;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.teamcode.interstellar.directives.DefaultDirective;
+import org.firstinspires.ftc.teamcode.stellarstructure.runnables.DefaultDirective;
 
 public abstract class Subsystem {
 	private DefaultDirective defaultDirective;

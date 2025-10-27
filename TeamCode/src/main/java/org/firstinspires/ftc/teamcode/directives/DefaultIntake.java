@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode.directives;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.teamcode.interstellar.Trigger;
-import org.firstinspires.ftc.teamcode.interstellar.directives.DefaultDirective;
+import org.firstinspires.ftc.teamcode.stellarstructure.Trigger;
+import org.firstinspires.ftc.teamcode.stellarstructure.runnables.DefaultDirective;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 
 public class DefaultIntake extends DefaultDirective {

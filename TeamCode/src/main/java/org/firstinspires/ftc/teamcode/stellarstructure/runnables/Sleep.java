@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.interstellar.directives;
+package org.firstinspires.ftc.teamcode.stellarstructure.runnables;
 
 public class Sleep extends Directive {
 	private final double sleepTimeSeconds;

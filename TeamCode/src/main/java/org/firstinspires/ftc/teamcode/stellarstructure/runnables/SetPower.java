@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.interstellar.directives;
+package org.firstinspires.ftc.teamcode.stellarstructure.runnables;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.interstellar.Subsystem;
-import org.firstinspires.ftc.teamcode.interstellar.hardwaremapwrappers.StellarDcMotor;
+import org.firstinspires.ftc.teamcode.stellarstructure.Subsystem;
+import org.firstinspires.ftc.teamcode.stellarstructure.hardwaremapwrappers.StellarDcMotor;
 
 public class SetPower extends Directive {
 	private final StellarDcMotor motor;
