@@ -3,21 +3,21 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.mechanisms.Intake;
+import org.firstinspires.ftc.teamcode.mechanisms.Eater;
 import org.firstinspires.ftc.teamcode.mechanisms.MecanumDrive;
 import org.firstinspires.ftc.teamcode.mechanisms.YeeterKing;
 
 @TeleOp(name="Gamepad Driving")
 public class GamepadDriveTeleOp extends OpMode {
     MecanumDrive drive = new MecanumDrive(telemetry);
-    Intake intake = new Intake();
+    Eater eater = new Eater();
 
     YeeterKing yeeter = new YeeterKing();
 
     @Override
     public void init() {
         drive.init(hardwareMap);
-        intake.init(hardwareMap);
+        eater.init(hardwareMap);
         yeeter.init(hardwareMap);
     }
 
@@ -25,13 +25,13 @@ public class GamepadDriveTeleOp extends OpMode {
     public void loop() {
 
         if (gamepad1.rightBumperWasReleased()) {
-            boolean intakeStatus = intake.toggle();
-            telemetry.addData("Intake Status", intakeStatus);
+            boolean eaterStatus = eater.toggle();
+            telemetry.addData("Eater (Intake) Status", eaterStatus);
         }
 
         if (gamepad1.yWasReleased()) {
             boolean yeetStatus = yeeter.toggle();
-            telemetry.addData("Yeet Status", yeetStatus);
+            telemetry.addData("Yeet (Score) Status", yeetStatus);
         }
 
         double forward = -gamepad1.left_stick_y;

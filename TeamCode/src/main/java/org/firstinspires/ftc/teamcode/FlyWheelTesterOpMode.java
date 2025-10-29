@@ -141,8 +141,8 @@ public class FlyWheelTesterOpMode extends OpMode {
                 flyWheelRight.setVelocity(targetVelocity);
 
                 // Advance to LAUNCH when both motors are up to speed
-                if (flyWheelLeft.getVelocity() > (targetVelocity - tolerance) &&
-                flyWheelRight.getVelocity() > (targetVelocity - tolerance)) {
+                if (flyWheelLeft.getVelocity() >= (targetVelocity - tolerance) &&
+                flyWheelRight.getVelocity() >= (targetVelocity - tolerance)) {
                     launchState = LaunchState.LAUNCH;
                 }
                 break;
