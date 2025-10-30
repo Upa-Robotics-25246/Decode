@@ -8,8 +8,8 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-@Autonomous(name = "Simple BezierLine Auto", group = "Examples")
-public class SimpleBezierAuto extends OpMode {
+@Autonomous
+public class Blue extends OpMode {
 
     private Follower follower;
     private Timer pathTimer;

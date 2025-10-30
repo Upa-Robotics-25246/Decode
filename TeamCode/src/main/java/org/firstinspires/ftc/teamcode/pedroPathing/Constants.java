@@ -15,13 +15,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
-            .mass(5.171)
-            .forwardZeroPowerAcceleration(-22139.322666285283)
-            .lateralZeroPowerAcceleration(-1420.9343171230914)
-            .translationalPIDFCoefficients(new PIDFCoefficients(0.2, 0, 0.02, 0.025))
-            .headingPIDFCoefficients(new PIDFCoefficients(1, 0, 0.03, 0.025))
+            .mass(83.355)
+            .forwardZeroPowerAcceleration(-35.739638805661954)
+            .lateralZeroPowerAcceleration(-60.79615345136567)
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.1, 0, 0.007, 0.03))
+            .headingPIDFCoefficients(new PIDFCoefficients(1.5, 0, 0.03, 0.06))
             .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.1,0.0,0.01,0.6,0.0))
-            .centripetalScaling(0.0005)
+            .centripetalScaling(0.00005)
             .useSecondaryTranslationalPIDF(false)
             .useSecondaryHeadingPIDF(false)
             .useSecondaryDrivePIDF(false);
@@ -30,8 +30,8 @@ public class Constants {
 
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(1)
-            .xVelocity(71.70329831341121)
-            .yVelocity(40.8230576402559)
+            .xVelocity(64.24441215935654)
+            .yVelocity(51.30862066313976)
             .rightFrontMotorName("frontRight")
             .rightRearMotorName("backRight")
             .leftRearMotorName("backLeft")
