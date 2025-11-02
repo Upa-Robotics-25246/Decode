@@ -39,10 +39,6 @@ public class Specifications {
     // subsystem name
 
 
-
-
-
-
     public static final String FTLF_MOTOR = "lf";
     public static final String FTRT_MOTOR = "rf";
     public static final String BKLF_MOTOR = "lb";
@@ -54,8 +50,16 @@ public class Specifications {
 
     public static final String SORTER = "sorter";
     public static final String PIN_POINT_ODOMETRY = "odo";
-    public static final String TURRET = "turret";
+
     public static final String PUSHER = "pusher";
+    public static final String TURRET = "turret";
+    public static final String TURN = "sorter";
+    public static final String SHOOTER = "shooter";
+
+
+//    public static final String COLOR_SENSOR = "colorSensor";
+
+//    public static final String LED = "led";
 
 
     public static final int CVSmoothing = 30;
