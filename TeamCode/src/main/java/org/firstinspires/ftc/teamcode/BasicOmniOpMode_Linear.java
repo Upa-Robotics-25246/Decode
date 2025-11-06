@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -86,6 +87,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         backLeftDrive = hardwareMap.get(DcMotor.class, "back_left_drive");
         frontRightDrive = hardwareMap.get(DcMotor.class, "front_right_drive");
         backRightDrive = hardwareMap.get(DcMotor.class, "back_right_drive");
+        weeltopmotor = hardwareMap.get(DcMotor.class, "weeltopmotor");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -101,6 +103,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive.setDirection(DcMotor.Direction.FORWARD);
+        //top wheel set to forward
+        weeltopmotor.setDirection(DcMotor.Direction.FORWARD);
 
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
@@ -119,7 +123,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             double yaw     =  gamepad1.right_stick_x;
 
             // Store gamepad button A state to be used later for throw ball
-            boolean Throw_ball  = gamepad1.a;
+            boolean Throw_ball  = gamepad1.right_bumper;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
@@ -127,8 +131,15 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             double frontRightPower = axial - lateral - yaw;
             double backLeftPower   = axial - lateral + yaw;
             double backRightPower  = axial + lateral - yaw;
-
-            boolean weeltopmotor   = Throw_ball;
+// connecting throw_ball
+            if(Throw_ball)
+            {
+                weeltopmotor.setPower(1.0);
+            }
+            else
+            {
+                weeltopmotor.setPower(0.0);
+            }
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
