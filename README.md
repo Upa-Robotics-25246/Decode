@@ -344,7 +344,7 @@ The readme.md file located in the [/TeamCode/src/main/java/org/firstinspires/ftc
 ### Bug Fixes
 * Fixes a bug which prevented PlayStation gamepads from being used in bluetooth mode. Bluetooth is NOT legal for competition but may be useful to allow a DS device to be used while charging, or at an outreach event.
 * Fixes a bug where a Blocks OpMode's Date Modified value can change to December 31, 1969, if the Control Hub is rebooted while the Blocks OpMode is being edited.
-* Fixes the automatic TeleOp preselection feature (was broken in 8.2)
+* Fixes the automatic org.firstinspires.ftc.teamcode.TeleOp preselection feature (was broken in 8.2)
 * Fixes a bug where passing an integer number such as 123 to the Telemetry.addData block that takes a number shows up as 123.0 in the telemetry.
 * Fixes OnBotJava autocomplete issues:
   * Autocomplete would incorrectly provide values for the current class when autocompleting a local variable
@@ -561,7 +561,7 @@ This is a bug fix only release to address the following four issues.
 * Removes usage of Renderscript.
 * Fixes logspam on app startup of repeated stacktraces relating to `"Failed resolution of: Landroid/net/wifi/p2p/WifiP2pManager$DeviceInfoListener"`
 * Allows disabling bluetooth radio from inspection screen
-* Improves warning messages when I2C devices are not responding
+* Improves warning org.firstinspires.ftc.teamcode.messages when I2C devices are not responding
 * Adds support for controlling the RGB LED present on PS4/Etpark gamepads from OpModes
 * Removes legacy Pushbot references from OpMode samples.  Renames "Pushbot" samples to "Robot".  Motor directions reversed to be compatible with "direct Drive" drive train.
 
@@ -575,7 +575,7 @@ This is a bug fix only release to address the following four issues.
   an officially supported gamepad was connected, then opening the Advanced Gamepad Features or
   Gamepad Type Overrides screens would cause the gamepad to be rebound by the custom USB driver even
   though advanced gamepad features was disabled.
-* Protects against (unlikely) null pointer exception in Vuforia Localizer.
+* Protects against (unlikely) null pointer exception in Vuforia org.firstinspires.ftc.teamcode.Localizer.
 * Harden OnBotJava and Blocks saves to protect against save issues when disconnecting from Program and Manage
 * Fixes issue where the RC app would hang if a REV Hub I2C write failed because the previous I2C
   operation was still in progress. This hang most commonly occurred during REV 2M Distance Sensor initialization
@@ -705,7 +705,7 @@ This is a bug fix only release to address the following four issues.
 * Fixes [ftc_app issue 673](https://github.com/ftctechnh/ftc_app/issues/673) Latest matchlog is being deleted instead of old ones by RobotLog
 * Fixes ConceptVuforiaUltimateGoalNavigationWebcam sample opmode by correctly orienting camera on robot.
 * Fixes issue where logcat would be spammed with InterruptedExceptions when stop is requested from the Driver Station (this behavior was accidentally introduced in v5.3). This change has no impact on functionality.
-* Fixes issue where the blocks editor fails to load if the name of any TeleOp opmode contains an apostrophe.
+* Fixes issue where the blocks editor fails to load if the name of any org.firstinspires.ftc.teamcode.TeleOp opmode contains an apostrophe.
 
 ## Version 6.1 (20201209-113742)
 * Makes the scan button on the configuration screen update the list of Expansion Hubs connected via RS-485
@@ -720,7 +720,7 @@ This is a bug fix only release to address the following four issues.
 * Adds support for the Control Hub OS 1.1.2 Robot Controller watchdog
     * The Robot Controller app will be restarted if it stops responding for more than 10 seconds
 * Adds support for using the Driver Station app on Android 10+
-* Introduces an automatic TeleOp preselection feature
+* Introduces an automatic org.firstinspires.ftc.teamcode.TeleOp preselection feature
     * For details and usage guide, please see [this wiki entry](https://github.com/FIRST-Tech-Challenge/FtcRobotController/wiki/Automatically-Loading-a-Driver-Controlled-Op-Mode)
 * Shows icon next to OpMode name in the OpMode list dropdown on the Driver Station to indicate the source of the OpMode (i.e. the programming tool used to create it)
 * Fixes issue where the Driver Station app would exit after displaying the Configuring Wi-Fi Direct screen
@@ -842,7 +842,7 @@ Version 5.5 requires Android Studio 4.0 or later.
     * Horizontal scrolling support (no longer word wrapped)
     * Supports pinch-to-zoom
     * Uses a monospaced font
-    * Error messages are highlighted
+    * Error org.firstinspires.ftc.teamcode.messages are highlighted
     * New color scheme
 * Attempts to force-stop a runaway/stuck OpMode without restarting the entire app
     * Not all types of runaway conditions are stoppable, but if the user code attempts to talk to hardware during the runaway, the system should be able to capture it.
@@ -888,7 +888,7 @@ Version 5.5 requires Android Studio 4.0 or later.
 * Fixes [SkyStone issue #232](https://github.com/FIRST-Tech-Challenge/SkyStone/issues/232) and
   modifies bulk caching semantics to allow for cache-preserving MANUAL/AUTO transitions.
 * Improves performance when REV 2M distance sensor is unplugged
-* Improves readability of Toast messages on certain devices
+* Improves readability of Toast org.firstinspires.ftc.teamcode.messages on certain devices
 * Allows a Driver Station to connect to a Robot Controller after another has disconnected
 * Improves generation of fake serial numbers for UVC cameras which do not provide a real serial number
     * Previously some devices would assign such cameras a serial of `0:0` and fail to open and start streaming
@@ -964,7 +964,7 @@ Version 5.5 requires Android Studio 4.0 or later.
     * Large dropdown lists display properly on lower res screens
     * Disabled buttons are now visually identifiable as disabled
     * A warning is shown if a user selects a TFOD sample, but their device is not compatible
-    * Warning messages in a Blocks OpMode are now visible by default.
+    * Warning org.firstinspires.ftc.teamcode.messages in a Blocks OpMode are now visible by default.
 * Adds goBILDA 5201 and 5202 motors to Robot Configurator
 * Adds PIDF Annotation values to AndyMark, goBILDA and TETRIX motor configurations.
     This has the effect of causing the RUN_USING_ENCODERS and RUN_TO_POSITION modes to use
@@ -1045,7 +1045,7 @@ Known issues:
 ## Version 4.2 (built on 18.10.30)
  * Includes fix to avoid deadlock situation with WatchdogMonitor which could result in USB communication errors.
      - Comm error appeared to require that user disconnect USB cable and restart the Robot Controller app to recover.
-     - robotControllerLog.txt would have error messages that included the words "E RobotCore: lynx xmit lock: #### abandoning lock:"
+     - robotControllerLog.txt would have error org.firstinspires.ftc.teamcode.messages that included the words "E RobotCore: lynx xmit lock: #### abandoning lock:"
  * Includes fix to correctly list the parent module address for a REV Robotics Expansion Hub in a configuration (.xml) file.
      - Bug in versions 4.0 and 4.1 would incorrect list the address module for a parent REV Robotics device as "1".
      - If the parent module had a higher address value than the daisy-chained module, then this bug would prevent the Robot Controller from communicating with the downstream Expansion Hub.
@@ -1159,7 +1159,7 @@ Changes include:
     - Added an external sample OpMode that demonstrates localization using 2018-2019 (Rover Ruckus presented by QualComm) Vuforia targets.
     - Added an external sample OpMode that demonstrates how to use the REV Robotics 2m Laser Distance Sensor.
     - Added an external sample OpMode that demonstrates how to use the REV Robotics Blinkin LED Controller.
-    - Re-categorized external Java sample OpModes to "TeleOp" instead of "Autonomous".
+    - Re-categorized external Java sample OpModes to "org.firstinspires.ftc.teamcode.TeleOp" instead of "Autonomous".
 
 Known issues:
  * Initial support for UVC compatible cameras
@@ -1241,7 +1241,7 @@ Changes with verion 3.3 include:
 
 Known issues:
  * Android Studio
-    - After updating to the new v3.3 Android Studio project folder, if you get error messages indicating "InvalidVirtualFileAccessException" then you might need to do a File->Invalidate Caches / Restart to clear the error.
+    - After updating to the new v3.3 Android Studio project folder, if you get error org.firstinspires.ftc.teamcode.messages indicating "InvalidVirtualFileAccessException" then you might need to do a File->Invalidate Caches / Restart to clear the error.
  * OnBot Java
     - Sometimes when you push the build button to build all OpModes, the RC returns an error message that the build failed.  If you press the build button a second time, the build typically suceeds.
 
@@ -1430,7 +1430,7 @@ Changes include:
      - Added logging when a blocks file is read/written.
      - Fixed bug to properly render blocks even if missing devices from configuration file.
      - Added support for additional characters (not just alphanumeric) for the block file names (for download and upload).
-     - Added support for OpMode flavor (“Autonomous” or “TeleOp”) and group.
+     - Added support for OpMode flavor (“Autonomous” or “org.firstinspires.ftc.teamcode.TeleOp”) and group.
   * Changes to Samples to prevent tutorial issues.
   * Incorporated suggested changes from public pull 216 (“Replace .. paths”).
   * Remove Servo Glitches when robot stopped.
@@ -1567,7 +1567,7 @@ Changes include:
  * Added seconds() and milliseconds() to ElapsedTime for clarity.
  * Added getCallbackCount() to I2cDevice.
  * Added missing clearI2cPortActionFlag.
- * Added code to create log messages while waiting for LinearOpMode shutdown.
+ * Added code to create log org.firstinspires.ftc.teamcode.messages while waiting for LinearOpMode shutdown.
  * Fix so Wi-Fi Direct Config activity will no longer launch multiple times.
  * Added the ability to specify an alternate i2c address in software for the Modern Robotics gyro.
 
@@ -1578,7 +1578,7 @@ Changes include:
     - If user attempts to start/restart RC with one or more module missing, it will display a warning but still start up.
     - When running an OpMode, if one or more modules gets disconnected, the RC & DS will display warnings,and robot will keep on working in spite of the missing module(s).
     - If a disconnected module gets physically reconnected the RC will auto detect the module and the user will regain control of the recently connected module.
-    - Warning messages are more helpful (identifies the type of module that’s missing plus its USB serial number).
+    - Warning org.firstinspires.ftc.teamcode.messages are more helpful (identifies the type of module that’s missing plus its USB serial number).
  * Code changes to fix the null gamepad reference when users try to reference the gamepads in the init() portion of their OpMode.
  * NXT light sensor output is now properly scaled.  Note that teams might have to readjust their light threshold values in their OpModes.
  * On DS user interface, gamepad icon for a driver will disappear if the matching gamepad is disconnected or if that gamepad gets designated as a different driver.
@@ -1630,16 +1630,16 @@ Changes include:
   - Users can access heading data (about Z axis)
   - Users can also access raw gyro data (X, Y, & Z axes).
   - Example MRGyroTest.java OpMode included.
- * Improved error messages
-  - More descriptive error messages for exceptions in user code.
+ * Improved error org.firstinspires.ftc.teamcode.messages
+  - More descriptive error org.firstinspires.ftc.teamcode.messages for exceptions in user code.
  * Updated DcMotor API
  * Enable read mode on new address in setI2cAddress
  * Fix so that driver station app resets the gamepads when switching OpModes.
- * USB-related code changes to make USB comm more responsive and to display more explicit error messages.
+ * USB-related code changes to make USB comm more responsive and to display more explicit error org.firstinspires.ftc.teamcode.messages.
   - Fix so that USB will recover properly if the USB bus returns garbage data.
   - Fix USB initializtion race condition.
   - Better error reporting during FTDI open.
-  - More explicit messages during USB failures.
+  - More explicit org.firstinspires.ftc.teamcode.messages during USB failures.
   - Fixed bug so that USB device is closed if event loop teardown method was not called.
  * Fixed timer UI issue
  * Fixed duplicate name UI bug (Legacy Module configuration).
