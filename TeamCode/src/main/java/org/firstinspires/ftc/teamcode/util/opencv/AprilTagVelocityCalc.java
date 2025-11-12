@@ -35,6 +35,7 @@ public class AprilTagVelocityCalc extends OpMode {
 
         double power = gamepad1.left_trigger;
         flywheel.setVelocity((power*6000)*(28/60));
+        flywheel.setPower(gamepad2.right_trigger);
         double vel = flywheel.getVelocity();
         telemetry.addData("Velocity:",vel);
 
