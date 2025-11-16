@@ -1,11 +1,9 @@
-package org.firstinspires.ftc.teamcode.util.mercurial;
+package org.firstinspires.ftc.teamcode.util.ComandBase.mercurial;
 
 import androidx.annotation.NonNull;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -20,12 +18,11 @@ import dev.frozenmilk.mercurial.commands.Lambda;
 import dev.frozenmilk.mercurial.subsystems.Subsystem;
 import kotlin.annotation.MustBeDocumented;
 
-public class SubsystemTemplate implements Subsystem {
+public class intakeRollerSubsystem implements Subsystem {
     //ALWAYS CHANGE THIS TO THE RIGHT CLASS
-    public static final SubsystemTemplate INSTANCE = new SubsystemTemplate();
-    public static Servo s;
-    public static DcMotorEx m;
-    private SubsystemTemplate() {
+    public static final intakeRollerSubsystem INSTANCE = new intakeRollerSubsystem();
+    public static DcMotorEx Roller;
+    private intakeRollerSubsystem() {
     }
 
 
@@ -53,60 +50,22 @@ public class SubsystemTemplate implements Subsystem {
         this.dependency = dependency;
     }
 
-//One WAY TO INIT SERVOS/ MOTORS(change a little bit of the code for motor)
-
-
-//    private final SubsystemObjectCell<Servo> s = subsystemCell(() -> {
-//
-//        Servo s = FeatureRegistrar.getActiveOpMode().hardwareMap.get(Servo.class, "servo");
-//
-//        return s;
-//    });
-//
-//    public static Servo getServo() {
-//        return INSTANCE.s.get();
-//    }
     //init hook
     public void preUserInitHook(@NonNull Wrapper opMode) {
         HardwareMap hmap = opMode.getOpMode().hardwareMap;
-        s = hmap.get(Servo.class,"servo");
-        m = hmap.get(DcMotorEx.class,"motor");
+
+        Roller = hmap.get(DcMotorEx.class,"intake");
+        Roller.setDirection(DcMotorEx.Direction.REVERSE);
         // other stuff for init of motors/ servos go here
 
-
     }
-    //USE WHICH ONE YOU NEED
-    public void postUserInitHook(@NonNull Wrapper opMode) {}
-
-    // and you might put periodic code in these
-    @Override
-    public void preUserInitLoopHook(@NonNull Wrapper opMode) {}
-    @Override
-    public void preUserLoopHook(@NonNull Wrapper opMode) {}
-    // or these
-    @Override
-    public void postUserInitLoopHook(@NonNull Wrapper opMode) {}
-    @Override
-    public void postUserLoopHook(@NonNull Wrapper opMode) {}
-
-    // and stopping code can go in here
-    @Override
-    public void preUserStopHook(@NonNull Wrapper opMode) {}
-    // or here
-    @Override
-    public void postUserStopHook(@NonNull Wrapper opMode) {}
-
-    // see the feature dev notes on when to use cleanup vs postStop
-    @Override
-    public void cleanup(@NonNull Wrapper opMode) {}
-
 
     //commands
-    public static Lambda MoveServo(double pos) {
-        return new Lambda("Move Servo Pos:" + pos)
-                .setInit(() -> {
 
-                    s.setPosition(pos);
+    public static Lambda SpinIntake() {
+        return new Lambda("spin intake")
+                .setInit(() -> {
+                    Roller.setPower(0.7);
                 })
                 .setExecute(() -> {
 
@@ -117,15 +76,14 @@ public class SubsystemTemplate implements Subsystem {
                 .setFinish(() -> {
                     return true;
                 })
-                .setInterruptible(false)
+                .setInterruptible(true)
                 .setRequirements(INSTANCE)
                 .setRunStates(Wrapper.OpModeState.ACTIVE);
     }
-    public static Lambda MoveMotor(int pos) {
-        return new Lambda("Move Motor Pos:" + pos)
+    public static Lambda StopIntake() {
+        return new Lambda("stop intake")
                 .setInit(() -> {
-
-                    m.setTargetPosition(pos);
+                    Roller.setPower(0);
                 })
                 .setExecute(() -> {
 
@@ -136,8 +94,29 @@ public class SubsystemTemplate implements Subsystem {
                 .setFinish(() -> {
                     return true;
                 })
-                .setInterruptible(false)
+                .setInterruptible(true)
                 .setRequirements(INSTANCE)
                 .setRunStates(Wrapper.OpModeState.ACTIVE);
     }
+    public static Lambda Extake() {
+        return new Lambda("Extake")
+                .setInit(() -> {
+                    Roller.setPower(-0.6);
+                })
+                .setExecute(() -> {
+
+                })
+                .setEnd(interrupted -> {
+
+                })
+                .setFinish(() -> {
+                    return true;
+                })
+                .setInterruptible(true)
+                .setRequirements(INSTANCE)
+                .setRunStates(Wrapper.OpModeState.ACTIVE);
+    }
+
 }
+
+

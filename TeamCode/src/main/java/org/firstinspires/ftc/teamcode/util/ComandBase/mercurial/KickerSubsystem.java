@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.util.mercurial;
+package org.firstinspires.ftc.teamcode.util.ComandBase.mercurial;
 
 import androidx.annotation.NonNull;
 
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -18,11 +18,11 @@ import dev.frozenmilk.mercurial.commands.Lambda;
 import dev.frozenmilk.mercurial.subsystems.Subsystem;
 import kotlin.annotation.MustBeDocumented;
 
-public class intakeRollerSubsystem implements Subsystem {
+public class KickerSubsystem implements Subsystem {
     //ALWAYS CHANGE THIS TO THE RIGHT CLASS
-    public static final intakeRollerSubsystem INSTANCE = new intakeRollerSubsystem();
-    public static DcMotorEx Roller;
-    private intakeRollerSubsystem() {
+    public static final KickerSubsystem INSTANCE = new KickerSubsystem();
+    public static Servo s;
+    private KickerSubsystem() {
     }
 
 
@@ -50,22 +50,24 @@ public class intakeRollerSubsystem implements Subsystem {
         this.dependency = dependency;
     }
 
-    //init hook
     public void preUserInitHook(@NonNull Wrapper opMode) {
         HardwareMap hmap = opMode.getOpMode().hardwareMap;
+        s = hmap.get(Servo.class,"kicker");
+        //Default position
+        s.setPosition(0);
 
-        Roller = hmap.get(DcMotorEx.class,"intake");
-        Roller.setDirection(DcMotorEx.Direction.REVERSE);
-        // other stuff for init of motors/ servos go here
+
 
     }
+
 
     //commands
-
-    public static Lambda SpinIntake() {
-        return new Lambda("spin intake")
+    public static Lambda kick() {
+        return new Lambda(" kick artifact")
                 .setInit(() -> {
-                    Roller.setPower(0.7);
+
+                    s.setPosition(0.5);
+
                 })
                 .setExecute(() -> {
 
@@ -80,10 +82,12 @@ public class intakeRollerSubsystem implements Subsystem {
                 .setRequirements(INSTANCE)
                 .setRunStates(Wrapper.OpModeState.ACTIVE);
     }
-    public static Lambda StopIntake() {
-        return new Lambda("stop intake")
+    public static Lambda defaultpos() {
+        return new Lambda(" stopkick artifact")
                 .setInit(() -> {
-                    Roller.setPower(0);
+
+                    s.setPosition(0);
+
                 })
                 .setExecute(() -> {
 
@@ -98,25 +102,6 @@ public class intakeRollerSubsystem implements Subsystem {
                 .setRequirements(INSTANCE)
                 .setRunStates(Wrapper.OpModeState.ACTIVE);
     }
-    public static Lambda Extake() {
-        return new Lambda("Extake")
-                .setInit(() -> {
-                    Roller.setPower(-0.6);
-                })
-                .setExecute(() -> {
 
-                })
-                .setEnd(interrupted -> {
-
-                })
-                .setFinish(() -> {
-                    return true;
-                })
-                .setInterruptible(true)
-                .setRequirements(INSTANCE)
-                .setRunStates(Wrapper.OpModeState.ACTIVE);
-    }
 
 }
-
-

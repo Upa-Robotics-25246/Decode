@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.util.mercurial;
+package org.firstinspires.ftc.teamcode.util.ComandBase.mercurial;
 
 import androidx.annotation.NonNull;
 
@@ -18,11 +18,11 @@ import dev.frozenmilk.mercurial.commands.Lambda;
 import dev.frozenmilk.mercurial.subsystems.Subsystem;
 import kotlin.annotation.MustBeDocumented;
 
-public class KickerSubsystem implements Subsystem {
-    //ALWAYS CHANGE THIS TO THE RIGHT CLASS
-    public static final KickerSubsystem INSTANCE = new KickerSubsystem();
+public class ServoSubsystem implements Subsystem {
+
+    public static final ServoSubsystem INSTANCE = new ServoSubsystem();
     public static Servo s;
-    private KickerSubsystem() {
+    private ServoSubsystem() {
     }
 
 
@@ -35,7 +35,7 @@ public class KickerSubsystem implements Subsystem {
     private Dependency<?> dependency =
 
             Subsystem.DEFAULT_DEPENDENCY
-//ALWAYS CHANGE THIS TO THE RIGHT CLASS
+
                     .and(new SingleAnnotation<>(Attach.class));
 
 
@@ -50,24 +50,33 @@ public class KickerSubsystem implements Subsystem {
         this.dependency = dependency;
     }
 
+
+//    private final SubsystemObjectCell<Servo> s = subsystemCell(() -> {
+//
+//        Servo s = FeatureRegistrar.getActiveOpMode().hardwareMap.get(Servo.class, "servo");
+//
+//        return s;
+//    });
+//
+//    public static Servo getServo() {
+//        return INSTANCE.s.get();
+//    }
+
     public void preUserInitHook(@NonNull Wrapper opMode) {
         HardwareMap hmap = opMode.getOpMode().hardwareMap;
-        s = hmap.get(Servo.class,"kicker");
-        //Default position
-        s.setPosition(0);
-
-
+        s = hmap.get(Servo.class,"servo");
+        // default command should be set up here, not in the constructor
+//        setDefaultCommand(MoveServo1(0));
 
     }
 
 
-    //commands
-    public static Lambda kick() {
-        return new Lambda(" kick artifact")
+
+    public static Lambda MoveServo1(double pos) {
+        return new Lambda("Move Servo Pos:" + pos)
                 .setInit(() -> {
 
-                    s.setPosition(0.5);
-
+                    s.setPosition(pos);
                 })
                 .setExecute(() -> {
 
@@ -78,30 +87,11 @@ public class KickerSubsystem implements Subsystem {
                 .setFinish(() -> {
                     return true;
                 })
-                .setInterruptible(true)
+                .setInterruptible(false)
                 .setRequirements(INSTANCE)
                 .setRunStates(Wrapper.OpModeState.ACTIVE);
     }
-    public static Lambda defaultpos() {
-        return new Lambda(" stopkick artifact")
-                .setInit(() -> {
-
-                    s.setPosition(0);
-
-                })
-                .setExecute(() -> {
-
-                })
-                .setEnd(interrupted -> {
-
-                })
-                .setFinish(() -> {
-                    return true;
-                })
-                .setInterruptible(true)
-                .setRequirements(INSTANCE)
-                .setRunStates(Wrapper.OpModeState.ACTIVE);
-    }
-
-
 }
+
+
+
