@@ -3,8 +3,9 @@ package org.firstinspires.ftc.teamcode.util.test;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.util.mercurial.FlyWheelSubsystem;
-import org.firstinspires.ftc.teamcode.util.mercurial.KickerSubsystem;
+
+import org.firstinspires.ftc.teamcode.util.ComandBase.mercurial.FlyWheelSubsystem;
+import org.firstinspires.ftc.teamcode.util.ComandBase.mercurial.KickerSubsystem;
 
 import dev.frozenmilk.mercurial.Mercurial;
 import dev.frozenmilk.mercurial.bindings.BoundGamepad;
