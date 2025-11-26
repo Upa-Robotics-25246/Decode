@@ -1,146 +1,146 @@
-package org.firstinspires.ftc.teamcode.util.ComandBase.mercurial;
-
-import static java.lang.Math.abs;
-
-import androidx.annotation.NonNull;
-
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-import dev.frozenmilk.dairy.core.FeatureRegistrar;
-import dev.frozenmilk.dairy.core.dependency.Dependency;
-import dev.frozenmilk.dairy.core.dependency.annotation.SingleAnnotation;
-import dev.frozenmilk.dairy.core.wrapper.Wrapper;
-import dev.frozenmilk.mercurial.commands.Lambda;
-import dev.frozenmilk.mercurial.subsystems.Subsystem;
-import kotlin.annotation.MustBeDocumented;
-
-public class drivetrainSubsystem implements Subsystem {
-
-    public static final drivetrainSubsystem INSTANCE = new drivetrainSubsystem();
-    private Gamepad gp1;
-    public  DcMotorEx fr,fl,br,bl;
-    public double slowSpeed = 1;
-    double drive,turn,strafe,FLspeed,FRspeed,BLspeed,BRspeed;
-
-    private drivetrainSubsystem() {
-    }
-
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.TYPE)
-    @MustBeDocumented
-    @Inherited
-    public @interface Attach{}
-
-    private Dependency<?> dependency =
-
-            Subsystem.DEFAULT_DEPENDENCY
-
-                    .and(new SingleAnnotation<>(Attach.class));
-
-
-    @NonNull
-    @Override
-    public Dependency<?> getDependency() {
-        return dependency;
-    }
-
-    @Override
-    public void setDependency(@NonNull Dependency<?> dependency) {
-        this.dependency = dependency;
-    }
-
-
-
-    public void preUserInitHook(@NonNull Wrapper opMode) {
-
-            setDefaultCommand(MoveChassis() );
-        HardwareMap hmap = opMode.getOpMode().hardwareMap;
-        fr = hmap.get(DcMotorEx.class,"right_front");
-        fl = hmap.get(DcMotorEx.class,"left_front");
-        bl = hmap.get(DcMotorEx.class,"left_back");
-        br = hmap.get(DcMotorEx.class,"right_back");
-
-        // other stuff for init of motors/ servos go here
-        fl.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        fr.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        bl.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        br.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
-        //3 reversed cus we accidentally flipped one of the wires prob need to fix soon
-        fl.setDirection(DcMotorEx.Direction.REVERSE);
-        bl.setDirection(DcMotorEx.Direction.REVERSE);
-        fr.setDirection(DcMotorEx.Direction.FORWARD);
-        br.setDirection(DcMotorEx.Direction.REVERSE);
-
-
-
-    }
-    public void preUserInitLoopHook(@NonNull Wrapper opMode) {
-        gp1 = FeatureRegistrar.getActiveOpMode().gamepad1;
-    }
-
-
-
-
-    public  Lambda MoveChassis() {
-        return new Lambda("DriveTrain")
-                .setInit(() -> {
-
-
-                })
-                .setExecute(() -> {
-//                   // Vedu
-//                    drive = (gp1.right_stick_y * -1)* slowSpeed;
-//                    turn = (gp1.left_stick_x)*slowSpeed;
-//                    strafe = (gp1.right_stick_x)*slowSpeed ;
-
-                    // others
-
-                    drive = (gp1.left_stick_y * -1)* slowSpeed;
-                    turn = (gp1.right_stick_x)*slowSpeed;
-                    strafe = (gp1.left_stick_x)*slowSpeed ;
-
-                    FLspeed = drive + turn + strafe;
-                    FRspeed = drive - turn - strafe;
-                    BLspeed = drive + turn - strafe;
-                    BRspeed = drive - turn + strafe;
-
-                    // Scaling Drive Powers Proportionally
-                    double maxF = Math.max((abs(FLspeed)),(abs(FRspeed)));
-                    double maxB = Math.max((abs(BLspeed)),(abs(BRspeed)));
-                    double maxFB_speed = Math.max(abs(maxF), abs(maxB));
-
-                    if(maxFB_speed > 1){
-                        FLspeed = FLspeed / maxFB_speed;
-                        FRspeed = FRspeed / maxFB_speed;
-                        BLspeed = BLspeed / maxFB_speed;
-                        BRspeed = BRspeed / maxFB_speed;
-                    }
-
-                    fl.setPower(FLspeed);
-                   fr.setPower(FRspeed);
-                    bl.setPower(BLspeed);
-                    br.setPower(BRspeed);
-
-
-                })
-                .setEnd(interrupted -> {
-
-                })
-                .setFinish(() -> {
-                    return false;
-                })
-                .setInterruptible(false)
-                .setRequirements(INSTANCE)
-                .setRunStates(Wrapper.OpModeState.ACTIVE);
-    }
-}
-
+//package org.firstinspires.ftc.teamcode.util.ComandBase.mercurial;
+//
+//import static java.lang.Math.abs;
+//
+//import androidx.annotation.NonNull;
+//
+//import com.qualcomm.robotcore.hardware.DcMotorEx;
+//import com.qualcomm.robotcore.hardware.Gamepad;
+//import com.qualcomm.robotcore.hardware.HardwareMap;
+//import java.lang.annotation.ElementType;
+//import java.lang.annotation.Inherited;
+//import java.lang.annotation.Retention;
+//import java.lang.annotation.RetentionPolicy;
+//import java.lang.annotation.Target;
+//
+//import dev.frozenmilk.dairy.core.FeatureRegistrar;
+//import dev.frozenmilk.dairy.core.dependency.Dependency;
+//import dev.frozenmilk.dairy.core.dependency.annotation.SingleAnnotation;
+//import dev.frozenmilk.dairy.core.wrapper.Wrapper;
+//import dev.frozenmilk.mercurial.commands.Lambda;
+//import dev.frozenmilk.mercurial.subsystems.Subsystem;
+//import kotlin.annotation.MustBeDocumented;
+//
+//public class drivetrainSubsystem implements Subsystem {
+//
+//    public static final drivetrainSubsystem INSTANCE = new drivetrainSubsystem();
+//    private Gamepad gp1;
+//    public  DcMotorEx fr,fl,br,bl;
+//    public double slowSpeed = 1;
+//    double drive,turn,strafe,FLspeed,FRspeed,BLspeed,BRspeed;
+//
+//    private drivetrainSubsystem() {
+//    }
+//
+//
+//    @Retention(RetentionPolicy.RUNTIME)
+//    @Target(ElementType.TYPE)
+//    @MustBeDocumented
+//    @Inherited
+//    public @interface Attach{}
+//
+//    private Dependency<?> dependency =
+//
+//            Subsystem.DEFAULT_DEPENDENCY
+//
+//                    .and(new SingleAnnotation<>(Attach.class));
+//
+//
+//    @NonNull
+//    @Override
+//    public Dependency<?> getDependency() {
+//        return dependency;
+//    }
+//
+//    @Override
+//    public void setDependency(@NonNull Dependency<?> dependency) {
+//        this.dependency = dependency;
+//    }
+//
+//
+//
+//    public void preUserInitHook(@NonNull Wrapper opMode) {
+//
+//            setDefaultCommand(MoveChassis() );
+//        HardwareMap hmap = opMode.getOpMode().hardwareMap;
+//        fr = hmap.get(DcMotorEx.class,"right_front");
+//        fl = hmap.get(DcMotorEx.class,"left_front");
+//        bl = hmap.get(DcMotorEx.class,"left_back");
+//        br = hmap.get(DcMotorEx.class,"right_back");
+//
+//        // other stuff for init of motors/ servos go here
+//        fl.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+//        fr.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+//        bl.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+//        br.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+//
+//        //3 reversed cus we accidentally flipped one of the wires prob need to fix soon
+//        fl.setDirection(DcMotorEx.Direction.REVERSE);
+//        bl.setDirection(DcMotorEx.Direction.REVERSE);
+//        fr.setDirection(DcMotorEx.Direction.FORWARD);
+//        br.setDirection(DcMotorEx.Direction.REVERSE);
+//
+//
+//
+//    }
+//    public void preUserInitLoopHook(@NonNull Wrapper opMode) {
+//        gp1 = FeatureRegistrar.getActiveOpMode().gamepad1;
+//    }
+//
+//
+//
+//
+//    public  Lambda MoveChassis() {
+//        return new Lambda("DriveTrain")
+//                .setInit(() -> {
+//
+//
+//                })
+//                .setExecute(() -> {
+////                   // Vedu
+////                    drive = (gp1.right_stick_y * -1)* slowSpeed;
+////                    turn = (gp1.left_stick_x)*slowSpeed;
+////                    strafe = (gp1.right_stick_x)*slowSpeed ;
+//
+//                    // others
+//
+//                    drive = (gp1.left_stick_y * -1)* slowSpeed;
+//                    turn = (gp1.right_stick_x)*slowSpeed;
+//                    strafe = (gp1.left_stick_x)*slowSpeed ;
+//
+//                    FLspeed = drive + turn + strafe;
+//                    FRspeed = drive - turn - strafe;
+//                    BLspeed = drive + turn - strafe;
+//                    BRspeed = drive - turn + strafe;
+//
+//                    // Scaling Drive Powers Proportionally
+//                    double maxF = Math.max((abs(FLspeed)),(abs(FRspeed)));
+//                    double maxB = Math.max((abs(BLspeed)),(abs(BRspeed)));
+//                    double maxFB_speed = Math.max(abs(maxF), abs(maxB));
+//
+//                    if(maxFB_speed > 1){
+//                        FLspeed = FLspeed / maxFB_speed;
+//                        FRspeed = FRspeed / maxFB_speed;
+//                        BLspeed = BLspeed / maxFB_speed;
+//                        BRspeed = BRspeed / maxFB_speed;
+//                    }
+//
+//                    fl.setPower(FLspeed);
+//                   fr.setPower(FRspeed);
+//                    bl.setPower(BLspeed);
+//                    br.setPower(BRspeed);
+//
+//
+//                })
+//                .setEnd(interrupted -> {
+//
+//                })
+//                .setFinish(() -> {
+//                    return false;
+//                })
+//                .setInterruptible(false)
+//                .setRequirements(INSTANCE)
+//                .setRunStates(Wrapper.OpModeState.ACTIVE);
+//    }
+//}
+//

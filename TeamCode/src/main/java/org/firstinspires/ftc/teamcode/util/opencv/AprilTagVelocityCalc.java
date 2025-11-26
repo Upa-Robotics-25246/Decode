@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.util.opencv;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -10,7 +11,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
-
+@TeleOp
 public class AprilTagVelocityCalc extends OpMode {
     DcMotorEx flywheel;
     double range;
@@ -24,7 +25,7 @@ public class AprilTagVelocityCalc extends OpMode {
 
         VisionPortal.Builder PortalTag = new VisionPortal.Builder();
 
-        PortalTag.setCamera(hardwareMap.get(WebcamName.class,"Webcam1"));
+        PortalTag.setCamera(hardwareMap.get(WebcamName.class,"Webcam 1"));
 
         PortalTag.addProcessor(tag);
         visionPortal = PortalTag.build();
@@ -43,9 +44,9 @@ public class AprilTagVelocityCalc extends OpMode {
         for (AprilTagDetection detections:currentdetections){
             if (detections.metadata != null){
                 if (detections.id == 24){
-                    range = detections.ftcPose.range;
+                    range = detections.ftcPose.y;
                 } else if (detections.id == 20) {
-                    range = detections.ftcPose.range;
+                    range = detections.ftcPose.y;
                 }
             }
         }
