@@ -19,80 +19,49 @@ import java.util.List;
 
 @Config
 public class flywheelPIDtuning extends OpMode {
-//    InterpLUT dist =new InterpLUT(); the length doesnt  work on
-//    april tags(all things involving distance will be commented out just in case i need it)
     InterpLUT vel = new InterpLUT();
-    PIDFController Feedback;
+    PIDController Feedback;
     SimpleMotorFeedforward feedforward;
-    PIDController teest;
     static double kP = 0;
     static double kI =0;
     static double kD = 0;
     static double kS = 0;
     static double kV = 0;
-//    double length;// detected by camera
-    double f = 0;// placholder cus in the loop it changes the f to the feedforward output
-    DcMotorEx flyWheel;
-    double range;
 
-    AprilTagProcessor tag;
-    VisionPortal visionPortal;
+    DcMotorEx flyWheel;
+    double dist;
+
+
     @Override
     public void init() {
-        tag = new AprilTagProcessor.Builder().build();
-
-        VisionPortal.Builder PortalTag = new VisionPortal.Builder();
-
-        PortalTag.setCamera(hardwareMap.get(WebcamName.class,"Webcam1"));
-
-        PortalTag.addProcessor(tag);
 
 
         feedforward = new SimpleMotorFeedforward(kS,kV);
-        Feedback = new PIDFController(kP,kI,kD,f);
+        Feedback = new PIDController(kP,kI,kD);
         flyWheel = hardwareMap.get(DcMotorEx.class,"flywheel");
-//        distLUTinit();
         velocityLUTinit();
-        visionPortal = PortalTag.build();
+
 
     }
 
     @Override
     public void loop() {
-        List<AprilTagDetection> currentdetections = tag.getDetections();
-        for (AprilTagDetection detections:currentdetections){
-            if (detections.metadata != null){
-                if (detections.id == 24){
-                    range = detections.ftcPose.range;
-                } else if (detections.id == 20) {
-                    range = detections.ftcPose.range;
-                }
-            }
-        }
 
-        Feedback.setPIDF(kP,kI,kD,f);
-//        double distance = dist.get(length);// gonna use camera for this so ill update this later
-        double velocity = vel.get(range);// gonna be based on distance or smt
-        Feedback.setF(feedforward.calculate(velocity));
+        Feedback.setPID(kP,kI,kD);
+        double velocity = vel.get(dist);// dist is gonna be based on odo
         double power = Feedback.calculate(flyWheel.getVelocity(),velocity);
+        double ff = feedforward.calculate(velocity);
 
 
 
-        flyWheel.setPower(power);
+        flyWheel.setPower(power+ff);
 
     }
-//    public void distLUTinit(){
-//        double pixelLength =0;//placeholders
-//        double distance = 0;
-//        dist.add(pixelLength,distance);// prob not gonna be a variable,
-//        // and also have mutliple add statements
-//        dist.createLUT();
-//    }
 
     public void velocityLUTinit(){
         double distance = 0;// placeholders
         double velocity = 0;
-        vel.add(distance,velocity);// same thing as above function
+        vel.add(distance,velocity);
         vel.createLUT();
 
     }

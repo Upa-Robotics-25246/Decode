@@ -2,10 +2,9 @@ package org.firstinspires.ftc.teamcode.util.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 @TeleOp
-public class IntakeWithRamp extends OpMode {
+public class Intake extends OpMode {
     DcMotorEx intake;
 
     @Override
@@ -19,6 +18,8 @@ public class IntakeWithRamp extends OpMode {
             intake.setPower(1);
         } else if (gamepad1.leftBumperWasPressed()) {
             intake.setPower(0);
+        } else if (gamepad1.aWasPressed()) {
+            intake.setPower(-1);
         }
     }
 }
