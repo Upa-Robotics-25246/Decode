@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.util.ComandBase.ftclibOrSolverslib;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
@@ -17,7 +16,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
 
-@Config
+
 public class flywheelPIDtuning extends OpMode {
     InterpLUT vel = new InterpLUT();
     PIDController Feedback;
