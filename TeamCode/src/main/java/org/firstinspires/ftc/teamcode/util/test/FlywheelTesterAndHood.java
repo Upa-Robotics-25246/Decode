@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.util.pedro.Constants;
+import org.firstinspires.ftc.teamcode.util.pedro.Poses;
 
 @TeleOp(name = "FlywheelTester+hoodTester")
 public class FlywheelTesterAndHood extends OpMode {
@@ -16,15 +17,15 @@ public class FlywheelTesterAndHood extends OpMode {
     Servo hood;
     static double power;
     static double hoodPos;
-    static Pose startPose =new Pose(0,0);
-    Pose trackPoint = new Pose(0,144,135);
+    static Pose startPose =Poses.startPoseFar;
+    Pose trackPoint = Poses.trackPoint;
 
     Follower follower;
 
     //NEED ODO FOR DISTANCE, ONLY WAY THIS WILL WORK
     @Override
     public void init() {
-        flywheel = hardwareMap.get(DcMotorEx.class, "intake");
+        flywheel = hardwareMap.get(DcMotorEx.class, "transfer");
         hood = hardwareMap.get(Servo.class,"hood");
         flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         follower = Constants.createFollower(hardwareMap);
@@ -40,6 +41,8 @@ public class FlywheelTesterAndHood extends OpMode {
 //        // multiply by ticks per second(28 ticks per revolution/60 seconds) to find overall ticks per sec
 //        telemetry.addData("Velocity", flywheel.getVelocity());
 //        telemetry.addData("Power", power);
+
+        follower.update();
         double absX = trackPoint.getX()-follower.getPose().getX();
         double absY = trackPoint.getY()-follower.getPose().getY();
 
