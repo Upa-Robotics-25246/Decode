@@ -4,8 +4,9 @@ import com.pedropathing.geometry.Pose;
 
 public class Poses {
 
-    public static Pose trackPoint = new Pose(0,144,Math.toRadians(135));
-    public static Pose startPoseFar = new Pose(28.5, 128, Math.toRadians(180));
-    public static Pose scorePoseFar = startPoseFar;
+    public static Pose BlueGoalPos = new Pose(0,144);
+    public static Pose RedGoalPos = new Pose(144,144);
+    public static Pose startPoseFarBlue = new Pose(56, 8, Math.toRadians(180));
+    public static Pose scorePoseFarBlue = startPoseFarBlue;
 
 }

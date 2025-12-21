@@ -4,7 +4,6 @@ package org.firstinspires.ftc.teamcode.util.pedro;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.util.Timer;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 
@@ -15,8 +14,8 @@ public class AutonLayout extends OpMode {
     private Timer pathTimer, actionTimer, opmodeTimer;
     private int pathState;
     // poses go here
-    private final Pose startPose = Poses.startPoseFar;
-    private final Pose scorePose = Poses.scorePoseFar;
+    private final Pose startPose = Poses.startPoseFarBlue;
+    private final Pose scorePose = Poses.scorePoseFarBlue;
 
     public void buildPaths(){
         //put paths here
