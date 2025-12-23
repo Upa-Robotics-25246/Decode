@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class AirSortOffsetTester extends OpMode {
     Servo hood;
     DcMotorEx flywheel;
-    private double pos = 0, power = 0;// will come from quadratic regression
+    private double pos = 0, velocity = 0;// will come from regression
     static double hoodOffset = 0, powerOffset = 0;
     double dist;// need odo
     @Override
@@ -19,6 +19,8 @@ public class AirSortOffsetTester extends OpMode {
     @Override
     public void loop() {
         hood.setPosition(pos+hoodOffset);
-        flywheel.setPower(power+powerOffset);
+        double power = 0;//comes from pid
+        double ff = 0;//comes from feedforward
+        flywheel.setPower(power+powerOffset+ff);
     }
 }

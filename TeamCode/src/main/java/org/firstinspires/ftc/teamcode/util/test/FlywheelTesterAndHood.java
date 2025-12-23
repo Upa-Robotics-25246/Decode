@@ -4,6 +4,7 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -31,6 +32,7 @@ public class FlywheelTesterAndHood extends OpMode {
     static double kD = 0;
     static double kS = 0;
     static double kV = 0;
+
 
 
     //NEED ODO FOR DISTANCE, ONLY WAY THIS WILL WORK

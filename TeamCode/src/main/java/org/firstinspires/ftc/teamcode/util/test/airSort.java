@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.util.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.seattlesolvers.solverslib.util.InterpLUT;
-
+@TeleOp()
 public class airSort extends OpMode {
     double hoodPos = 0; // based on quadratic regression or whatever its called
     double flywheelVel = 0;//based on quadratic regression or wtv
@@ -65,7 +66,7 @@ public class airSort extends OpMode {
                 case PGP:
                     lowArcShoot();
                     highArcShoot();
-                    middleArcShoot();
+                     middleArcShoot();
                     break;
                 case GPP:
                     lowArcShoot();
