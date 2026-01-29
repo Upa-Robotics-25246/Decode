@@ -18,7 +18,7 @@ public class turretAutoAim extends OpMode {
     Follower follower;
     Pose trackPoint = Poses.BlueGoalPos;//(x:0,y:144)
     Pose startPose = Poses.startPoseFarBlue;
-    double ppr = 0;// from motor, idk the motor im using rn
+    double ppr = 751.8;// from motor, idk the motor im using rn
 
     PIDController controller;
     public static double p = 0,i = 0, d =0;
