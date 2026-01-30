@@ -17,10 +17,14 @@ apply from: '../build.dependencies.gradle'
 
 android {
     namespace = 'org.firstinspires.ftc.teamcode'
-
+    compileSdk 35
+    defaultConfig {
+        minSdk 24
+    }
     packagingOptions {
         jniLibs.useLegacyPackaging true
     }
+
 }
 
 repositories {
@@ -30,6 +34,7 @@ repositories {
     maven {
         url = 'https://repo.dairy.foundation/releases'
     }
+
 }
 
 dependencies {
@@ -37,7 +42,7 @@ dependencies {
 
 //    implementation "com.acmerobotics.dashboard:dashboard:0.4.16"
 
-
+    implementation "com.bylazar:fullpanels"
     implementation "org.solverslib:core:0.3.2"
 
 
