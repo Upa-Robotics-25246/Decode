@@ -42,7 +42,7 @@ dependencies {
 
 //    implementation "com.acmerobotics.dashboard:dashboard:0.4.16"
 
-    implementation "com.bylazar:fullpanels"
+    implementation "com.bylazar:fullpanels:1.0.12"
     implementation "org.solverslib:core:0.3.2"
 
 

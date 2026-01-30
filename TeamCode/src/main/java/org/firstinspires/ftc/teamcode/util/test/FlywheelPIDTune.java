@@ -1,22 +1,15 @@
-package org.firstinspires.ftc.teamcode.util.test.mercurial1Stuff;
+package org.firstinspires.ftc.teamcode.util.test;
 
 import com.bylazar.configurables.annotations.Configurable;
-import com.bylazar.telemetry.PanelsTelemetry;
-import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.seattlesolvers.solverslib.controller.PIDController;
-import com.seattlesolvers.solverslib.controller.wpilibcontroller.SimpleMotorFeedforward;
-
-import org.firstinspires.ftc.teamcode.util.pedro.Constants;
-import org.firstinspires.ftc.teamcode.util.pedro.Poses;
 
 import dev.nextftc.control.ControlSystem;
 import dev.nextftc.control.KineticState;
+import dev.nextftc.control.feedback.PIDCoefficients;
+import dev.nextftc.control.feedforward.BasicFeedforwardParameters;
 
 @Configurable
 @TeleOp
@@ -29,6 +22,10 @@ public class FlywheelPIDTune extends OpMode {
     public static double kS = 0;
    public static double kV = 0;
     public static double velocity =0;
+
+    public static PIDCoefficients pidC = new PIDCoefficients(0.011, 0.0, 0.0);
+
+    public static BasicFeedforwardParameters ffCoefs = new BasicFeedforwardParameters(0.000006493506494, 0.0, 0.03);
 
 
 
@@ -45,8 +42,6 @@ public class FlywheelPIDTune extends OpMode {
 
     @Override
     public void loop() {
-
-
 
 
 
