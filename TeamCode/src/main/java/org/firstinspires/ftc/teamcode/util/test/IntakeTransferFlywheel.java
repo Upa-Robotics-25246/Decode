@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode.util.test;
 
 import com.bylazar.configurables.annotations.Configurable;
+import com.bylazar.graph.PanelsGraph;
+import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import dev.nextftc.control.ControlSystem;
 import dev.nextftc.control.KineticState;
@@ -14,14 +18,16 @@ import dev.nextftc.control.feedforward.BasicFeedforwardParameters;
 @TeleOp
 @Configurable
 public class IntakeTransferFlywheel extends OpMode {
+
+    PanelsTelemetry tel;
    static double intakeSpeed = 0;
    static double transferSpeed = 0;
    static int velocity = 0;
 
 
     ControlSystem pidf;
-    public static PIDCoefficients pidCoefficients = new PIDCoefficients( 0.0000009, 0, 0);
-    public static BasicFeedforwardParameters ff = new BasicFeedforwardParameters(0.00048,0,0.000463);
+    public static PIDCoefficients pidCoefficients = new PIDCoefficients( 0.0000009, 0, 0.000001);
+    public static BasicFeedforwardParameters ff = new BasicFeedforwardParameters(0.000455,0,0.000463);
 
     DcMotorEx flywheel,intake,transfer;
     @Override
@@ -38,6 +44,8 @@ public class IntakeTransferFlywheel extends OpMode {
                 .velPid(pidCoefficients)
                 .basicFF(ff)
                 .build();
+
+
     }
 
     @Override
@@ -52,6 +60,10 @@ public class IntakeTransferFlywheel extends OpMode {
         telemetry.addData("transferSpeed",transferSpeed);
         telemetry.addData("flywheel vel",flywheel.getVelocity());
         telemetry.addData("flywheel target",velocity);
+        PanelsTelemetry.INSTANCE.getFtcTelemetry().addData("velocity",velocity);
+        PanelsTelemetry.INSTANCE.getFtcTelemetry().update();
         telemetry.update();
     }
+
+
 }
