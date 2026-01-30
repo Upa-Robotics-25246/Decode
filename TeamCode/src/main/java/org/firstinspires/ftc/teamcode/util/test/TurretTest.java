@@ -10,12 +10,11 @@ public class TurretTest extends OpMode {
    DcMotorEx turret;
    Servo hood;
    double hoodPos = 0;
-   int TurretPos = 0;
+   double TurretPower = 0;
     @Override
     public void init() {
         turret = hardwareMap.get(DcMotorEx.class,"turret");
-        turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        turret.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        turret.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         hood = hardwareMap.get(Servo.class,"hood");
         hood.setPosition(0);
         turret.setTargetPosition(0);
@@ -24,10 +23,10 @@ public class TurretTest extends OpMode {
 
     @Override
     public void loop() {
-        if (gamepad1.dpad_up){
-            hoodPos+=0.01;
-        }else if(gamepad1.dpad_down){
-            hoodPos-=0.01;
+        if (gamepad1.dpadUpWasPressed()){
+            hoodPos+=0.05;
+        }else if(gamepad1.dpadDownWasPressed()){
+            hoodPos-=0.05;
         }
         if (hoodPos>1){
             hoodPos = 1;
@@ -36,21 +35,29 @@ public class TurretTest extends OpMode {
         }
         if(gamepad1.dpadRightWasPressed()){
             hood.setPosition(hoodPos);
+
         }
-        if (gamepad1.y){
-            TurretPos+=1;
-        }else if(gamepad1.a){
-            TurretPos-=1;
+        if (gamepad1.yWasPressed()){
+            TurretPower+=0.05;
+        }else if(gamepad1.aWasPressed()){
+            TurretPower-=0.05;
         }
-        if(TurretPos<0){
-            TurretPos = 0;
+        if (TurretPower>1) {
+            TurretPower = 1;
+        } else if(TurretPower<-1){
+            TurretPower = -1;
         }
         if(gamepad1.xWasPressed()){
-            hood.setPosition(TurretPos);
+
+            turret.setPower(TurretPower);
+
         }
 
         telemetry.addData("hoodPos: ",hoodPos);
-        telemetry.addData("TurretPos: ",TurretPos);
+        telemetry.addData("TurretPower: ",TurretPower);
+        telemetry.addData("Is x pressed?", gamepad1.x);
+        telemetry.addData("Is right pressed?",gamepad1.dpad_right);
         telemetry.update();
+
     }
 }
