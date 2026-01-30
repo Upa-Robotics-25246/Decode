@@ -18,21 +18,17 @@ public class IntakeTransferFlywheel extends OpMode {
    static double transferSpeed = 0;
    static int velocity = 0;
 
-    double kP = 0.0000001;
-    double kI =0;
-    double kD = 0;
-    double kS = 0.003;
-    double kV = 0.000463;
+
     ControlSystem pidf;
-    public PIDCoefficients pidCoefficients = new PIDCoefficients(kP, kI, kD);
-    public BasicFeedforwardParameters ff = new BasicFeedforwardParameters(kV,0,kS);
+    public static PIDCoefficients pidCoefficients = new PIDCoefficients( 0.0000009, 0, 0);
+    public static BasicFeedforwardParameters ff = new BasicFeedforwardParameters(0.00048,0,0.000463);
 
     DcMotorEx flywheel,intake,transfer;
     @Override
     public void init() {
         flywheel = hardwareMap.get(DcMotorEx.class,"flywheel");
         flywheel.setDirection(DcMotorSimple.Direction.REVERSE);
-        flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        flywheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intake = hardwareMap.get(DcMotorEx.class,"intake");
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
         transfer = hardwareMap.get(DcMotorEx.class,"transfer");
