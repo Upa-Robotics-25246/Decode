@@ -8,5 +8,8 @@ public class Poses {
     public static Pose RedGoalPos = new Pose(144,144);
     public static Pose startPoseFarBlue = new Pose(56, 8, Math.toRadians(180));
     public static Pose scorePoseFarBlue = startPoseFarBlue;
-
+    public enum Alliance{
+        RED,
+        BLUE
+    }
 }
