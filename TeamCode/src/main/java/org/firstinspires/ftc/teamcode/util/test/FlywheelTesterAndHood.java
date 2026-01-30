@@ -15,23 +15,31 @@ import com.seattlesolvers.solverslib.controller.wpilibcontroller.SimpleMotorFeed
 import org.firstinspires.ftc.teamcode.util.pedro.Constants;
 import org.firstinspires.ftc.teamcode.util.pedro.Poses;
 
+import dev.nextftc.control.ControlSystem;
+import dev.nextftc.control.KineticState;
+import dev.nextftc.control.feedback.PIDCoefficients;
+import dev.nextftc.control.feedforward.BasicFeedforwardParameters;
+
 @TeleOp(name = "FlywheelTester+hoodTester")
 public class FlywheelTesterAndHood extends OpMode {
     DcMotorEx flywheel;
     Servo hood;
-    static double hoodPos;
+    static double hoodPos = 0;
     static Pose startPose =Poses.startPoseFarBlue;
     Pose trackPoint = Poses.BlueGoalPos;
 
     Follower follower;
+    public static double velocity = 0;
 
-    PIDController Feedback;
-    SimpleMotorFeedforward feedforward;
-    static double kP = 0;
+
+    static double kP = 0.0000001;
     static double kI =0;
     static double kD = 0;
-    static double kS = 0;
-    static double kV = 0;
+    static double kS = 0.003;
+    static double kV = 0.000463;
+    ControlSystem pidf;
+    public static PIDCoefficients pidCoefficients = new PIDCoefficients(kP, kI, kD);
+    public static BasicFeedforwardParameters ff = new BasicFeedforwardParameters(kV,0,kS);
 
 
 
@@ -44,21 +52,18 @@ public class FlywheelTesterAndHood extends OpMode {
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startPose);
 
-        feedforward = new SimpleMotorFeedforward(kS,kV);
-        Feedback = new PIDController(kP,kI,kD);
+        pidf = ControlSystem.builder()
+                .velPid(pidCoefficients)
+                .basicFF(ff)
+                .build();
+
     }
 
     @Override
     public void loop() {
 
-        Feedback.setPID(kP,kI,kD);
-        //velocity is gotten from the regression, change once you get the regression working
-        double velocity= 0;
-        double power = Feedback.calculate(flywheel.getVelocity(),velocity);
-        double ff = feedforward.calculate(velocity);
 
-        //hoodPos is also gotten from the regression
-        hoodPos = 0;
+        pidf.setGoal(new KineticState(0,velocity));
 
 
 
@@ -71,8 +76,7 @@ public class FlywheelTesterAndHood extends OpMode {
                 ((Math.pow(absX,2))+(Math.pow(absY,2)))
         );
 
-
-        flywheel.setPower(power+ff);
+        flywheel.setPower(pidf.calculate(new KineticState(0, flywheel.getVelocity())));
         telemetry.addData("Power", flywheel.getPower());
         telemetry.addData("Velocity", flywheel.getVelocity());
         hood.setPosition(hoodPos);

@@ -23,10 +23,6 @@ public class FlywheelPIDTune extends OpMode {
    public static double kV = 0;
     public static double velocity =0;
 
-    public static PIDCoefficients pidC = new PIDCoefficients(0.011, 0.0, 0.0);
-
-    public static BasicFeedforwardParameters ffCoefs = new BasicFeedforwardParameters(0.000006493506494, 0.0, 0.03);
-
 
 
     @Override
