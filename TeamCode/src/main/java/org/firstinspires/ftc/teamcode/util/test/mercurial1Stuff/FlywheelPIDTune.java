@@ -34,7 +34,7 @@ public class FlywheelPIDTune extends OpMode {
 
     @Override
     public void init() {
-        flywheel = hardwareMap.get(DcMotorEx.class, "transfer");
+        flywheel = hardwareMap.get(DcMotorEx.class, "flywheel");
         flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         feedforward = new SimpleMotorFeedforward(kS, kV);
