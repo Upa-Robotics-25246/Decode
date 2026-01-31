@@ -32,7 +32,7 @@ public class TeleOpTest {
         ControlSystem flypidf;
         PIDCoefficients pidCoefficients = FlypidCoefficients;
         BasicFeedforwardParameters ff = Flyff;
-        double velocity = 1000;
+        double velocity = 1800;
         boolean flywheelPID = false;
         double hoodPos=0;
 
@@ -56,6 +56,7 @@ public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->
     bl = ctx.hardwareMap().get(DcMotorEx.class,"bl");
     br = ctx.hardwareMap().get(DcMotorEx.class,"br");
     flywheel = ctx.hardwareMap().get(DcMotorEx.class,"flywheel");
+    flywheel.setDirection(DcMotorSimple.Direction.REVERSE);
     Servo hood = ctx.hardwareMap().get(Servo.class,"hood");
     intake = ctx.hardwareMap().get(DcMotorEx.class,"intake");
     intake.setDirection(DcMotorSimple.Direction.REVERSE);
