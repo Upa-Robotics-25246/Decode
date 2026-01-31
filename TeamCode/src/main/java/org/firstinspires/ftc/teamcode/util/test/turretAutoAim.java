@@ -9,15 +9,15 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.seattlesolvers.solverslib.controller.PIDController;
 
 import org.firstinspires.ftc.teamcode.util.pedro.Constants;
-import org.firstinspires.ftc.teamcode.util.pedro.Poses;
+import org.firstinspires.ftc.teamcode.util.GlobalVariables;
 @Configurable
 @TeleOp(name = "ABSOLUTE WEEWOO")
 public class turretAutoAim extends OpMode {
 
     DcMotorEx turret;
     Follower follower;
-    Pose trackPoint = Poses.BlueGoalPos;//(x:0,y:144)
-    Pose startPose = Poses.startPoseFarBlue;
+    Pose trackPoint = GlobalVariables.BlueGoalPos;//(x:0,y:144)
+    Pose startPose = GlobalVariables.startPoseFarBlue;
     double ppr = 751.8;// from motor, idk the motor im using rn
 
     PIDController controller;

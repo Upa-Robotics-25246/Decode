@@ -4,16 +4,12 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.seattlesolvers.solverslib.controller.PIDController;
-import com.seattlesolvers.solverslib.controller.PIDFController;
-import com.seattlesolvers.solverslib.controller.wpilibcontroller.SimpleMotorFeedforward;
 
 import org.firstinspires.ftc.teamcode.util.pedro.Constants;
-import org.firstinspires.ftc.teamcode.util.pedro.Poses;
+import org.firstinspires.ftc.teamcode.util.GlobalVariables;
 
 import dev.nextftc.control.ControlSystem;
 import dev.nextftc.control.KineticState;
@@ -25,8 +21,8 @@ public class FlywheelTesterAndHood extends OpMode {
     DcMotorEx flywheel;
     Servo hood;
     static double hoodPos = 0;
-    static Pose startPose =Poses.startPoseFarBlue;
-    Pose trackPoint = Poses.BlueGoalPos;
+    static Pose startPose = GlobalVariables.startPoseFarBlue;
+    Pose trackPoint = GlobalVariables.BlueGoalPos;
 
     Follower follower;
     public static double velocity = 0;
@@ -38,8 +34,8 @@ public class FlywheelTesterAndHood extends OpMode {
     static double kS = 0.003;
     static double kV = 0.000463;
     ControlSystem pidf;
-    public static PIDCoefficients pidCoefficients = new PIDCoefficients(kP, kI, kD);
-    public static BasicFeedforwardParameters ff = new BasicFeedforwardParameters(kV,0,kS);
+    public static PIDCoefficients pidCoefficients=GlobalVariables.FlypidCoefficients;
+    public static BasicFeedforwardParameters ff= GlobalVariables.Flyff;
 
 
 

@@ -6,6 +6,7 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.util.Timer;
 import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.teamcode.util.GlobalVariables;
 
 
 public class AutonLayout extends OpMode {
@@ -14,8 +15,8 @@ public class AutonLayout extends OpMode {
     private Timer pathTimer, actionTimer, opmodeTimer;
     private int pathState;
     // poses go here
-    private final Pose startPose = Poses.startPoseFarBlue;
-    private final Pose scorePose = Poses.scorePoseFarBlue;
+    private final Pose startPose = GlobalVariables.startPoseFarBlue;
+    private final Pose scorePose = GlobalVariables.scorePoseFarBlue;
 
     public void buildPaths(){
         //put paths here
