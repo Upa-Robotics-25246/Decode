@@ -28,11 +28,7 @@ public class FlywheelTesterAndHood extends OpMode {
     public static double velocity = 0;
 
 
-    static double kP = 0.0000001;
-    static double kI =0;
-    static double kD = 0;
-    static double kS = 0.003;
-    static double kV = 0.000463;
+
     ControlSystem pidf;
     public static PIDCoefficients pidCoefficients=GlobalVariables.FlypidCoefficients;
     public static BasicFeedforwardParameters ff= GlobalVariables.Flyff;

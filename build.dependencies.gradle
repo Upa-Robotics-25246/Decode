@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.pedropathing:ftc:2.0.4'
+    implementation 'com.pedropathing:ftc:2.0.6'
     implementation 'com.pedropathing:telemetry:1.0.0'
     implementation 'dev.nextftc:control:1.0.0'
     implementation("dev.frozenmilk.dairy:MercurialFTC:2.0.0-beta9")

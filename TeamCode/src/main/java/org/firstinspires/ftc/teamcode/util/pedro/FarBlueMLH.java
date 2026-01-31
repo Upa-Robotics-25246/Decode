@@ -1,8 +1,16 @@
 package org.firstinspires.ftc.teamcode.util.pedro;
 
+import static android.text.AndroidCharacter.mirror;
 import static org.firstinspires.ftc.teamcode.util.GlobalVariables.Flyff;
 import static org.firstinspires.ftc.teamcode.util.GlobalVariables.FlypidCoefficients;
+import static org.firstinspires.ftc.teamcode.util.GlobalVariables.blDirection;
+import static org.firstinspires.ftc.teamcode.util.GlobalVariables.brDirection;
+import static org.firstinspires.ftc.teamcode.util.GlobalVariables.flDirection;
+import static org.firstinspires.ftc.teamcode.util.GlobalVariables.frDirection;
+import static java.lang.Math.abs;
+import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.deadline;
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.exec;
+import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.loop;
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.parallel;
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.sequence;
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.waitSeconds;
@@ -11,15 +19,24 @@ import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.waitUnt
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
+import com.pedropathing.geometry.PedroCoordinates;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.teamcode.TeleOp.TeleOpBlue;
+import org.firstinspires.ftc.teamcode.util.GlobalVariables;
 
 import java.util.function.BooleanSupplier;
 
 import dev.frozenmilk.dairy.mercurial.ftc.Mercurial;
 import dev.nextftc.control.ControlSystem;
+import dev.nextftc.control.KineticState;
 import dev.nextftc.control.feedback.PIDCoefficients;
 import dev.nextftc.control.feedforward.BasicFeedforwardParameters;
 
@@ -36,10 +53,10 @@ public class FarBlueMLH {
     public static PathChain pickuphp;
     static Follower  follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
-    private int pathState;
+
 
     public static class State {
-
+        public static Pose BotPose;
         public void buildPaths() {
             //shoot
             pickupmiddle = follower.pathBuilder().addPath(
@@ -128,107 +145,21 @@ public class FarBlueMLH {
                     .setReversed()
                     .build();
 
+
+
             //shoot
 
         }
-
-        public void autonomousPathUpdate() {
-//            switch (pathState) {
-//                case 0:
-//                    parallel(//shootcode,
-//                            waitSeconds(1)
-//                    );
-//                    setPathState(1);
-//                    break;
-//                case 1:
-//
-//                    if (!follower.isBusy()) {
-//                        follower.followPath(pickupmiddle, true);
-//                        setPathState(2);
-//                    }
-//                    break;
-//                case 2:
-//                    if (!follower.isBusy()){
-//                        follower.followPath(Diaganolfing,true);
-//                        setPathState(3);
-//                    }
-//                   break;
-//                case 3:
-//                    if (!follower.isBusy()){
-//                        follower.followPath(opengate,true);
-//                        setPathState(4);
-//                    }
-//                   break;
-//                case 4:
-//                    if (!follower.isBusy()){
-//                        follower.followPath(backtospawn,true);
-//                        setPathState(5);
-//                    }
-//                   break;
-//                case 5:
-//                    if (!follower.isBusy()){
-//                        parallel(
-//                                exec(()->{/*shoot code*/}),
-//                                waitSeconds(1));
-//
-//                        setPathState(6);
-//                    }
-//                   break;
-//                case 6:
-//                    if (!follower.isBusy()){
-//                        follower.followPath(pickuplow,true);
-//                        setPathState(7);
-//                    }
-//                   break;
-//
-//                case 7:
-//                    if (!follower.isBusy()){
-//                        follower.followPath(BackToSpawn2,true);
-//                        setPathState(8);
-//                    }
-//                   break;
-//                case 8:
-//                    if (!follower.isBusy()){
-//                        sequence(parallel(exec(()->{/*shoot code*/}),
-//                                waitSeconds(1))
-//                                ,exec(()->follower.followPath(pickuphp,true)));
-//                        setPathState(9);
-//                    }
-//                   break;
-//                case 9:
-//                    if (!follower.isBusy()){
-//                        follower.followPath(backToSpawn3,true);
-//                        setPathState(10);
-//                    }
-//                   break;
-//                case 10:
-//
-//
-//                if (!follower.isBusy()) {
-//                    parallel(exec(()->{/*shootcode*/}),
-//                            exec(()->waitSeconds(1)));
-//                    setPathState(-1);
-//                }
-//                    break;
-
-
-        }
-
-    }
-
-    /**
-     * These change the states of the paths and actions. It will also reset the timers of the individual switches
-     **/
-    public void setPathState(int pState) {
-        pathState = pState;
-        pathTimer.resetTimer();
-
 
     }
 
 
     public static Mercurial.RegisterableProgram auton = Mercurial.autonomous(ctx -> {
+
         State states = new State();
+        follower = Constants.createFollower(ctx.hardwareMap());
+        follower.setStartingPose(GlobalVariables.startPoseFarBlue);
+
     ctx.schedule(
                 sequence(waitUntil(ctx::inLoop),
                 exec(()->{/*shoot code*/}),//preloads
@@ -263,5 +194,20 @@ public class FarBlueMLH {
                 exec(()->{/*shoot code*/})//hp
                 )
             );
-        });
+    //loop
+        ctx.schedule(sequence(
+                waitUntil(ctx::inLoop),
+                loop(exec(()->{
+                    follower.update();
+                    states.BotPose = follower.getPose();
+                    //turretPID update
+                    //regression update
+                }))
+
+        ));
+    ctx.dropToScheduler();
+
+    });
+
+
 }

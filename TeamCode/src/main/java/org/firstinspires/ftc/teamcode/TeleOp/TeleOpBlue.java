@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.util.GlobalVariables.blDirection;
 import static org.firstinspires.ftc.teamcode.util.GlobalVariables.brDirection;
 import static org.firstinspires.ftc.teamcode.util.GlobalVariables.flDirection;
 import static org.firstinspires.ftc.teamcode.util.GlobalVariables.frDirection;
+import static org.firstinspires.ftc.teamcode.util.GlobalVariables.startPoseFarBlue;
 import static java.lang.Math.abs;
 
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.exec;
@@ -16,12 +17,14 @@ import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.waitUnt
 
 
 import com.bylazar.configurables.annotations.Configurable;
+import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.util.GlobalVariables;
+import org.firstinspires.ftc.teamcode.util.pedro.Constants;
 
 import dev.frozenmilk.dairy.mercurial.ftc.Mercurial;
 import dev.frozenmilk.dairy.mercurial.ftc.State;
@@ -55,12 +58,17 @@ public class TeleOpBlue {
         }
         static State.TransferState transferState =State.TransferState.OFF;
         Pose Goal = GlobalVariables.BlueGoalPos;
+        Follower follower;
     }
+
+
 
     public static Mercurial.RegisterableProgram TeleOpBlue = Mercurial.teleop(ctx ->{
 
-        DcMotorEx fr,fl,br,bl,flywheel,intake,transfer;
+        DcMotorEx fr,fl,br,bl,flywheel,intake,transfer,turret;
         State states = new State();
+        states.follower = Constants.createFollower(ctx.hardwareMap());
+        states.follower.setStartingPose(GlobalVariables.startPoseFarBlue);
 
 
         fr = ctx.hardwareMap().get(DcMotorEx.class,"fr");
@@ -74,6 +82,7 @@ public class TeleOpBlue {
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
         transfer = ctx.hardwareMap().get(DcMotorEx.class,"transfer");
         transfer.setDirection(DcMotorSimple.Direction.REVERSE);
+        turret = ctx.hardwareMap().get(DcMotorEx.class,"turret");
 
         // other stuff for init of motors/ servos go here
         fl.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
@@ -278,7 +287,6 @@ public class TeleOpBlue {
         );
 
 
-        //Turret auto align
 
 
 
