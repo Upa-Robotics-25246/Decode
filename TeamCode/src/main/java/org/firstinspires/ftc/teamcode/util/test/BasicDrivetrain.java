@@ -15,7 +15,7 @@ public class BasicDrivetrain extends OpMode {
     public DcMotorEx fr,fl,br,bl;;
     double drive,turn,strafe,FLspeed,FRspeed,BLspeed,BRspeed;
 
-    public static DcMotorSimple.Direction flDirection,frDirection,blDirection,brDirection;
+    DcMotorSimple.Direction flDirection,frDirection,blDirection,brDirection;
     @Override
     public void init() {
         fr = hardwareMap.get(DcMotorEx.class,"fr");
@@ -30,14 +30,14 @@ public class BasicDrivetrain extends OpMode {
         br.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
         flDirection = DcMotorEx.Direction.REVERSE;
-        frDirection = DcMotorEx.Direction.REVERSE;
+        frDirection = DcMotorEx.Direction.FORWARD;
         blDirection = DcMotorEx.Direction.REVERSE;
-        brDirection = DcMotorEx.Direction.REVERSE;
+        brDirection = DcMotorEx.Direction.FORWARD;
 
         fl.setDirection(flDirection);
-        bl.setDirection(DcMotorEx.Direction.REVERSE);
-        fr.setDirection(DcMotorEx.Direction.FORWARD);
-        br.setDirection(DcMotorEx.Direction.REVERSE);
+        bl.setDirection(blDirection);
+        fr.setDirection(frDirection);
+        br.setDirection(brDirection);
 
     }
 

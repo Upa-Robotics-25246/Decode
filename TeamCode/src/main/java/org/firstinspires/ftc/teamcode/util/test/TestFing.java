@@ -23,7 +23,7 @@ public class TestFing extends OpMode {
 
     @Override
     public void init() {
-        f1M = (DcMotorEx) hardwareMap.dcMotor.get("Flywheel");
+        f1M = (DcMotorEx) hardwareMap.dcMotor.get("flywheel");
 
         f1M.setDirection(DcMotorSimple.Direction.REVERSE);
         f1M.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
