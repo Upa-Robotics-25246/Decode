@@ -1,7 +1,11 @@
-package org.firstinspires.ftc.teamcode.util.ComandBase.Mercurial2;
+package org.firstinspires.ftc.teamcode.util.ComandBaseOrSimilar.Mercurial2;
 
 import static org.firstinspires.ftc.teamcode.util.GlobalVariables.Flyff;
 import static org.firstinspires.ftc.teamcode.util.GlobalVariables.FlypidCoefficients;
+import static org.firstinspires.ftc.teamcode.util.GlobalVariables.blDirection;
+import static org.firstinspires.ftc.teamcode.util.GlobalVariables.brDirection;
+import static org.firstinspires.ftc.teamcode.util.GlobalVariables.flDirection;
+import static org.firstinspires.ftc.teamcode.util.GlobalVariables.frDirection;
 import static java.lang.Math.abs;
 
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.exec;
@@ -42,10 +46,10 @@ public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->
     DcMotorEx fr,fl,br,bl,flywheel,intake,transfer;
     State states = new State();
 
-    fr = ctx.hardwareMap().get(DcMotorEx.class,"right_front");
-    fl = ctx.hardwareMap().get(DcMotorEx.class,"left_front");
-    bl = ctx.hardwareMap().get(DcMotorEx.class,"left_back");
-    br = ctx.hardwareMap().get(DcMotorEx.class,"right_back");
+    fr = ctx.hardwareMap().get(DcMotorEx.class,"fr");
+    fl = ctx.hardwareMap().get(DcMotorEx.class,"fl");
+    bl = ctx.hardwareMap().get(DcMotorEx.class,"bl");
+    br = ctx.hardwareMap().get(DcMotorEx.class,"br");
     flywheel = ctx.hardwareMap().get(DcMotorEx.class,"flywheel");
     Servo hood = ctx.hardwareMap().get(Servo.class,"hood");
     intake = ctx.hardwareMap().get(DcMotorEx.class,"intake");
@@ -60,10 +64,10 @@ public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->
     br.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
     //3 reversed cus we accidentally flipped one of the wires prob need to fix soon
-    fl.setDirection(DcMotorEx.Direction.REVERSE);
-    bl.setDirection(DcMotorEx.Direction.REVERSE);
-    fr.setDirection(DcMotorEx.Direction.FORWARD);
-    br.setDirection(DcMotorEx.Direction.REVERSE);
+    fl.setDirection(flDirection);
+    bl.setDirection(blDirection);
+    fr.setDirection(frDirection);
+    br.setDirection(brDirection);
 
     states.flypidf = ControlSystem.builder()
             .velPid(states.pidCoefficients)
@@ -186,6 +190,7 @@ public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->
                 }
             })
     );
+    //extake
     ctx.bindSpawn(
             ctx.risingEdge(()-> ctx.gamepad1().x),exec(()->{
                 switch(State.intakeTransState){
@@ -232,6 +237,7 @@ public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->
                     }))
             )
     );
+    ctx.dropToScheduler();
 
 });
 }

@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.util;
 
 import com.pedropathing.geometry.Pose;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import dev.nextftc.control.feedback.PIDCoefficients;
 import dev.nextftc.control.feedforward.BasicFeedforwardParameters;
@@ -10,7 +12,7 @@ public class GlobalVariables {
     public static Pose BlueGoalPos = new Pose(0,144);
     public static Pose RedGoalPos = new Pose(144,144);
     public static Pose startPoseFarBlue = new Pose(56, 8, Math.toRadians(180));
-    public static Pose scorePoseFarBlue = startPoseFarBlue;
+
     public enum Alliance{
         RED,
         BLUE
@@ -20,4 +22,10 @@ public class GlobalVariables {
     public static PIDCoefficients FlypidCoefficients = new PIDCoefficients( 0.0000009, 0, 0.000001);
     public static BasicFeedforwardParameters Flyff = new BasicFeedforwardParameters(0.000455,0,0.000463);
 
+
+
+   public static DcMotorSimple.Direction flDirection = DcMotorEx.Direction.REVERSE;
+   public static DcMotorEx.Direction frDirection = DcMotorEx.Direction.FORWARD;
+   public static DcMotorSimple.Direction blDirection = DcMotorEx.Direction.REVERSE;
+   public static DcMotorSimple.Direction brDirection = DcMotorEx.Direction.FORWARD;
 }

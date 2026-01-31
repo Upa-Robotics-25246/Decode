@@ -5,8 +5,10 @@ import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
+import com.pedropathing.util.Timer;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-public class FarBlueMLH {
+public class FarBlueMLH extends OpMode {
     public PathChain pickupmiddle;
     public PathChain Diaganolfing;
     public PathChain opengate;
@@ -17,8 +19,11 @@ public class FarBlueMLH {
     public PathChain backToSpawn3;
     public PathChain BackToSpawn2;
     public PathChain pickuphp;
+    Follower follower;
+    private Timer pathTimer, actionTimer, opmodeTimer;
+    private int pathState;
 
-    public FarBlueMLH(Follower follower) {
+    public void buildPaths() {
         pickupmiddle = follower.pathBuilder().addPath(
                         new BezierCurve(
                                 new Pose(56.000, 8.000),
@@ -120,6 +125,16 @@ public class FarBlueMLH {
                 ).setConstantHeadingInterpolation(Math.toRadians(180))
 
                 .build();
+    }
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public void loop() {
+
     }
 }
 
