@@ -19,10 +19,10 @@ import dev.nextftc.control.feedforward.BasicFeedforwardParameters;
 @Configurable
 public class IntakeTransferFlywheel extends OpMode {
 
-    PanelsTelemetry tel;
-   static double intakeSpeed = 0;
-   static double transferSpeed = 0;
-   static int velocity = 0;
+
+   static double intakeSpeed = 0.75;
+   static double transferSpeed = 1;
+   static int velocity = 400;
 
 
     ControlSystem pidf;
@@ -60,8 +60,6 @@ public class IntakeTransferFlywheel extends OpMode {
         telemetry.addData("transferSpeed",transferSpeed);
         telemetry.addData("flywheel vel",flywheel.getVelocity());
         telemetry.addData("flywheel target",velocity);
-        PanelsTelemetry.INSTANCE.getFtcTelemetry().addData("velocity",velocity);
-        PanelsTelemetry.INSTANCE.getFtcTelemetry().update();
         telemetry.update();
     }
 
