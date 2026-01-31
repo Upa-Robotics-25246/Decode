@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.util.GlobalVariables.flDirection;
 import static org.firstinspires.ftc.teamcode.util.GlobalVariables.frDirection;
 import static org.firstinspires.ftc.teamcode.util.GlobalVariables.startPoseFarBlue;
 import static java.lang.Math.abs;
+import static java.lang.Math.getExponent;
 
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.exec;
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.loop;
@@ -16,7 +17,6 @@ import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.waitSec
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.waitUntil;
 
 
-import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -27,13 +27,12 @@ import org.firstinspires.ftc.teamcode.util.GlobalVariables;
 import org.firstinspires.ftc.teamcode.util.pedro.Constants;
 
 import dev.frozenmilk.dairy.mercurial.ftc.Mercurial;
-import dev.frozenmilk.dairy.mercurial.ftc.State;
 import dev.nextftc.control.ControlSystem;
 import dev.nextftc.control.KineticState;
 import dev.nextftc.control.feedback.PIDCoefficients;
 import dev.nextftc.control.feedforward.BasicFeedforwardParameters;
 
-public class TeleOpBlue {
+public class TeleOpBlueFar {
 
     private static class State{
         ControlSystem flypidf;
@@ -68,7 +67,7 @@ public class TeleOpBlue {
         DcMotorEx fr,fl,br,bl,flywheel,intake,transfer,turret;
         State states = new State();
         states.follower = Constants.createFollower(ctx.hardwareMap());
-        states.follower.setStartingPose(GlobalVariables.startPoseFarBlue);
+        states.follower.setStartingPose(startPoseFarBlue);
 
 
         fr = ctx.hardwareMap().get(DcMotorEx.class,"fr");
@@ -285,6 +284,7 @@ public class TeleOpBlue {
                         }))
                 )
         );
+
 
 
 

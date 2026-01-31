@@ -50,7 +50,7 @@ public class TeleOpGeneric {
 
     public static Mercurial.RegisterableProgram TeleOpGeneric = Mercurial.teleop(ctx ->{
 
-        DcMotorEx fr,fl,br,bl,flywheel,intake,transfer;
+        DcMotorEx fr,fl,br,bl,flywheel,intake,transfer,turret;
         State states = new State();
 
 
@@ -65,6 +65,7 @@ public class TeleOpGeneric {
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
         transfer = ctx.hardwareMap().get(DcMotorEx.class,"transfer");
         transfer.setDirection(DcMotorSimple.Direction.REVERSE);
+        turret = ctx.hardwareMap().get(DcMotorEx.class,"turret");
 
         // other stuff for init of motors/ servos go here
         fl.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
@@ -269,7 +270,18 @@ public class TeleOpGeneric {
         );
 
 
-        //Turret auto align
+        ctx.bindSpawn(
+                ctx.risingEdge(()-> ctx.gamepad2().left_stick_y>0.1 || ctx.gamepad2().left_stick_y<0.1),
+                exec(()->{
+                    turret.setPower(-ctx.gamepad2().left_stick_y);
+                })
+        );
+        ctx.bindSpawn(
+                ctx.risingEdge(()-> ctx.gamepad2().right_stick_y>0.1 || ctx.gamepad2().right_stick_y<0.1),
+                exec(()->{
+                    turret.setPower(-ctx.gamepad2().right_stick_y);
+                })
+        );
 
 
 

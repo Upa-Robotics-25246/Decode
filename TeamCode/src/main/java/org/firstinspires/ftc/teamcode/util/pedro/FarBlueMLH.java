@@ -1,17 +1,8 @@
 package org.firstinspires.ftc.teamcode.util.pedro;
 
-import static android.text.AndroidCharacter.mirror;
-import static org.firstinspires.ftc.teamcode.util.GlobalVariables.Flyff;
-import static org.firstinspires.ftc.teamcode.util.GlobalVariables.FlypidCoefficients;
-import static org.firstinspires.ftc.teamcode.util.GlobalVariables.blDirection;
-import static org.firstinspires.ftc.teamcode.util.GlobalVariables.brDirection;
-import static org.firstinspires.ftc.teamcode.util.GlobalVariables.flDirection;
-import static org.firstinspires.ftc.teamcode.util.GlobalVariables.frDirection;
 import static java.lang.Math.abs;
-import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.deadline;
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.exec;
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.loop;
-import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.parallel;
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.sequence;
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.waitSeconds;
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.waitUntil;
@@ -19,26 +10,13 @@ import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.waitUnt
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.geometry.PedroCoordinates;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.TeleOp.TeleOpBlue;
 import org.firstinspires.ftc.teamcode.util.GlobalVariables;
 
-import java.util.function.BooleanSupplier;
-
 import dev.frozenmilk.dairy.mercurial.ftc.Mercurial;
-import dev.nextftc.control.ControlSystem;
-import dev.nextftc.control.KineticState;
-import dev.nextftc.control.feedback.PIDCoefficients;
-import dev.nextftc.control.feedforward.BasicFeedforwardParameters;
 
 public class FarBlueMLH {
     public static PathChain pickupmiddle;
