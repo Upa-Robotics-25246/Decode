@@ -15,6 +15,7 @@ import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.waitSec
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.waitUntil;
 
 
+import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -26,7 +27,8 @@ import dev.nextftc.control.feedback.PIDCoefficients;
 import dev.nextftc.control.feedforward.BasicFeedforwardParameters;
 
 public class TeleOpTest {
-    private static class State{
+    @Configurable
+    public static class State{
         ControlSystem flypidf;
         PIDCoefficients pidCoefficients = FlypidCoefficients;
         BasicFeedforwardParameters ff = Flyff;
@@ -34,11 +36,11 @@ public class TeleOpTest {
         boolean flywheelPID = false;
         double hoodPos=0;
 
+
         enum IntakeTransState{
             INTAKETRANS,
             TRANS,
             EXTAKE,
-            EXTRANS,
             OFF
         }
         static State.IntakeTransState intakeTransState = State.IntakeTransState.OFF;
@@ -53,7 +55,6 @@ public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->
     bl = ctx.hardwareMap().get(DcMotorEx.class,"bl");
     br = ctx.hardwareMap().get(DcMotorEx.class,"br");
     flywheel = ctx.hardwareMap().get(DcMotorEx.class,"flywheel");
-    flywheel.setDirection(DcMotorSimple.Direction.REVERSE);
     Servo hood = ctx.hardwareMap().get(Servo.class,"hood");
     intake = ctx.hardwareMap().get(DcMotorEx.class,"intake");
     intake.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -127,16 +128,13 @@ public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->
 
                     waitUntil(ctx::inLoop),
                     loop(exec(() -> {
-
+                        flywheel.setPower(states.flypidf.calculate(new KineticState(
+                            0, flywheel.getVelocity())));
                         if(states.flywheelPID) {
-                            flywheel.setPower(states.flypidf.calculate(new KineticState(
-                                0, flywheel.getVelocity())));
                             states.flypidf.setGoal(new KineticState(0, states.velocity));
-
 
                         }else{
                             states.flypidf.setGoal(new KineticState(0, 0));
-                            flywheel.setPower(0);
                         }
                         //velocity = gotten from regression
 
@@ -175,9 +173,6 @@ public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->
                     case TRANS:
                         State.intakeTransState = State.IntakeTransState.OFF;
                         break;
-                    case EXTRANS:
-                        State.intakeTransState = State.intakeTransState.OFF;
-                        break;
                 }
             })
     );
@@ -198,9 +193,6 @@ public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->
                     case TRANS:
                         State.intakeTransState = State.IntakeTransState.OFF;
                         break;
-                    case EXTRANS:
-                        State.intakeTransState = State.intakeTransState.OFF;
-                        break;
                 }
             })
     );
@@ -209,7 +201,7 @@ public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->
             ctx.risingEdge(()-> ctx.gamepad1().x),exec(()->{
                 switch(State.intakeTransState){
                     case OFF:
-                        State.intakeTransState = State.IntakeTransState.EXTRANS;
+                        State.intakeTransState = State.IntakeTransState.EXTAKE;
 
                         break;
                     case EXTAKE:
@@ -221,13 +213,9 @@ public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->
                     case TRANS:
                         State.intakeTransState = State.IntakeTransState.OFF;
                         break;
-                    case EXTRANS:
-                        State.intakeTransState = State.intakeTransState.OFF;
-                        break;
                 }
             })
     );
-    //extrans
     ctx.schedule(
             sequence(
 
@@ -251,9 +239,6 @@ public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->
                                 intake.setPower(0);
                                 transfer.setPower(1);
                                 break;
-                            case EXTRANS:
-                                transfer.setPower(-1);
-                                intake.setPower(0);
                         }
                     }))
             )

@@ -20,9 +20,9 @@ import dev.nextftc.control.feedforward.BasicFeedforwardParameters;
 public class IntakeTransferFlywheel extends OpMode {
 
 
-   static double intakeSpeed = 0.75;
-   static double transferSpeed = 1;
-   static int velocity = 400;
+   public static double intakeSpeed = 1;
+   public static double transferSpeed = 1;
+   public static int velocity = 1500;
 
 
     ControlSystem pidf;
