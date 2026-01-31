@@ -15,7 +15,7 @@ public class BasicDrivetrain extends OpMode {
     public DcMotorEx fr,fl,br,bl;;
     double drive,turn,strafe,FLspeed,FRspeed,BLspeed,BRspeed;
 
-    public static DcMotorSimple.Direction flDirection,frDirection,blDirection,brDirection ;
+    public static DcMotorSimple.Direction flDirection,frDirection,blDirection,brDirection;
     @Override
     public void init() {
         fr = hardwareMap.get(DcMotorEx.class,"fr");
