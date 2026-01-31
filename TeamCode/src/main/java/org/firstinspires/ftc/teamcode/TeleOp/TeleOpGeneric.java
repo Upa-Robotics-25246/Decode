@@ -271,15 +271,21 @@ public class TeleOpGeneric {
 
 
         ctx.bindSpawn(
-                ctx.risingEdge(()-> ctx.gamepad2().left_stick_y>0.1 || ctx.gamepad2().left_stick_y<0.1),
+                ctx.risingEdge(()-> ctx.gamepad1().right_trigger>0.1),
                 exec(()->{
-                    turret.setPower(-ctx.gamepad2().left_stick_y);
+                    turret.setPower(ctx.gamepad1().right_trigger);
                 })
         );
         ctx.bindSpawn(
-                ctx.risingEdge(()-> ctx.gamepad2().right_stick_y>0.1 || ctx.gamepad2().right_stick_y<0.1),
+                ctx.risingEdge(()-> ctx.gamepad1().left_trigger>0.1),
                 exec(()->{
-                    turret.setPower(-ctx.gamepad2().right_stick_y);
+                    turret.setPower(-ctx.gamepad1().left_trigger);
+                })
+        );
+        ctx.bindSpawn(
+                ctx.risingEdge(()-> ctx.gamepad1().dpad_up),
+                exec(()->{
+                    hood.setPosition(hood.getPosition()+0.05);
                 })
         );
 
