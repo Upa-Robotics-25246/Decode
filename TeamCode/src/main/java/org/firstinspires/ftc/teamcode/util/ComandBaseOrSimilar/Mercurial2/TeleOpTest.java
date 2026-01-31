@@ -21,6 +21,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import dev.frozenmilk.dairy.mercurial.ftc.Mercurial;
+import dev.frozenmilk.dairy.mercurial.ftc.State;
 import dev.nextftc.control.ControlSystem;
 import dev.nextftc.control.KineticState;
 import dev.nextftc.control.feedback.PIDCoefficients;
@@ -35,21 +36,28 @@ public class TeleOpTest {
         double velocity = 1800;
         boolean flywheelPID = false;
         double hoodPos=0;
+        boolean flywheelReversed = false;
 
 
-        enum IntakeTransState{
-            INTAKETRANS,
-            TRANS,
-            EXTAKE,
-            EXTRANS,
+       enum IntakeState{
+            FORWARD,
+            REVERSE,
             OFF
         }
-        static State.IntakeTransState intakeTransState = State.IntakeTransState.OFF;
+        static State.IntakeState intakeState =State.IntakeState.OFF;
+       enum TransferState{
+            FORWARD,
+            REVERSE,
+            OFF
+        }
+        static State.TransferState transferState =State.TransferState.OFF;
     }
 
 public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->{
+
     DcMotorEx fr,fl,br,bl,flywheel,intake,transfer;
     State states = new State();
+
 
     fr = ctx.hardwareMap().get(DcMotorEx.class,"fr");
     fl = ctx.hardwareMap().get(DcMotorEx.class,"fl");
@@ -130,16 +138,28 @@ public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->
 
                     waitUntil(ctx::inLoop),
                     loop(exec(() -> {
-                        flywheel.setPower(states.flypidf.calculate(new KineticState(
-                            0, flywheel.getVelocity())));
-                        if(states.flywheelPID) {
-                            states.flypidf.setGoal(new KineticState(0, states.velocity));
+                        if(!states.flywheelReversed) {
+                            if (states.flywheelPID) {
+                                flywheel.setPower(states.flypidf.calculate(new KineticState(
+                                        0, flywheel.getVelocity())));
+                                states.flypidf.setGoal(new KineticState(0, states.velocity));
 
+                            } else {
+                                states.flypidf.setGoal(new KineticState(0, 0));
+                                flywheel.setPower(0);
+                            }
+                            //velocity = gotten from regression
                         }else{
-                            states.flypidf.setGoal(new KineticState(0, 0));
-                        }
-                        //velocity = gotten from regression
+                            if (states.flywheelPID) {
+                                flywheel.setPower(states.flypidf.calculate(new KineticState(
+                                        0, flywheel.getVelocity())));
+                                states.flypidf.setGoal(new KineticState(0, -states.velocity));
 
+                            } else {
+                                states.flypidf.setGoal(new KineticState(0, 0));
+                                flywheel.setPower(0);
+                            }
+                        }
                     }))
             )
     );
@@ -158,131 +178,75 @@ public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->
                     }))
             )
     );
-    //intake+transfer
+    //intake
     ctx.bindSpawn(
-            ctx.risingEdge(()-> ctx.gamepad1().left_bumper),exec(()->{
-                switch(State.intakeTransState){
+            ctx.risingEdge(()-> ctx.gamepad1().left_bumper),exec(()-> {
+                switch (State.intakeState) {
                     case OFF:
-                        State.intakeTransState = State.IntakeTransState.INTAKETRANS;
+                        State.intakeState = State.IntakeState.FORWARD;
 
-                        break;
-                    case EXTAKE:
-                        State.intakeTransState = State.IntakeTransState.OFF;
-                        break;
-                    case INTAKETRANS:
-                        State.intakeTransState = State.IntakeTransState.OFF;
-                        break;
-                    case TRANS:
-                        State.intakeTransState = State.IntakeTransState.OFF;
-                        break;
-                    case EXTRANS:
-                        State.intakeTransState = State.IntakeTransState.OFF;
-                        break;
+                    case FORWARD:
+                        State.intakeState = State.IntakeState.OFF;
+                    case REVERSE:
+                        State.intakeState = State.IntakeState.FORWARD;
                 }
+
             })
     );
     //transfer
     ctx.bindSpawn(
             ctx.risingEdge(()-> ctx.gamepad1().a),exec(()->{
-                switch(State.intakeTransState){
+                switch (State.transferState) {
                     case OFF:
-                        State.intakeTransState = State.IntakeTransState.TRANS;
+                        State.transferState = State.TransferState.FORWARD;
 
-                        break;
-                    case EXTAKE:
-                        State.intakeTransState = State.IntakeTransState.OFF;
-                        break;
-                    case INTAKETRANS:
-                        State.intakeTransState = State.IntakeTransState.OFF;
-                        break;
-                    case TRANS:
-                        State.intakeTransState = State.IntakeTransState.OFF;
-                        break;
-                    case EXTRANS:
-                        State.intakeTransState = State.IntakeTransState.OFF;
-                        break;
-
+                    case FORWARD:
+                        State.transferState = State.TransferState.OFF;
+                    case REVERSE:
+                        State.transferState = State.TransferState.FORWARD;
                 }
+
+
             })
     );
     //extake
     ctx.bindSpawn(
             ctx.risingEdge(()-> ctx.gamepad1().x),exec(()->{
-                switch(State.intakeTransState){
+                switch (State.intakeState) {
                     case OFF:
-                        State.intakeTransState = State.IntakeTransState.EXTAKE;
+                        State.intakeState = State.IntakeState.REVERSE;
 
-                        break;
-                    case EXTAKE:
-                        State.intakeTransState = State.IntakeTransState.OFF;
-                        break;
-                    case INTAKETRANS:
-                        State.intakeTransState = State.IntakeTransState.OFF;
-                        break;
-                    case TRANS:
-                        State.intakeTransState = State.IntakeTransState.OFF;
-                        break;
-                    case EXTRANS:
-                        State.intakeTransState = State.IntakeTransState.OFF;
-                        break;
-
+                    case FORWARD:
+                        State.intakeState = State.IntakeState.REVERSE;
+                    case REVERSE:
+                        State.intakeState = State.IntakeState.OFF;
                 }
             })
     );
     //extrans
     ctx.bindSpawn(
             ctx.risingEdge(()-> ctx.gamepad1().b),exec(()->{
-                switch(State.intakeTransState){
+                switch (State.transferState) {
                     case OFF:
-                        State.intakeTransState = State.IntakeTransState.EXTRANS;
+                        State.transferState = State.TransferState.REVERSE;
 
-                        break;
-                    case EXTAKE:
-                        State.intakeTransState = State.IntakeTransState.OFF;
-                        break;
-                    case INTAKETRANS:
-                        State.intakeTransState = State.IntakeTransState.OFF;
-                        break;
-                    case TRANS:
-                        State.intakeTransState = State.IntakeTransState.OFF;
-                        break;
-                    case EXTRANS:
-                        State.intakeTransState = State.IntakeTransState.OFF;
-                        break;
-
+                    case FORWARD:
+                        State.transferState = State.TransferState.REVERSE;
+                    case REVERSE:
+                        State.transferState = State.TransferState.OFF;
                 }
+
             })
     );
-    ctx.schedule(
-            sequence(
-
-                    waitUntil(ctx::inLoop),
-                    loop(exec(() -> {
-                        switch(State.intakeTransState){
-                            case OFF:
-                                intake.setPower(0);
-                                transfer.setPower(0);
-
-                                break;
-                            case EXTAKE:
-                                intake.setPower(-1);
-                                transfer.setPower(-1);
-                                break;
-                            case INTAKETRANS:
-                                intake.setPower(1);
-                                transfer.setPower(1);
-                                break;
-                            case TRANS:
-                                intake.setPower(0);
-                                transfer.setPower(1);
-                                break;
-                            case EXTRANS:
-                                intake.setPower(0);
-                                transfer.setPower(-1);
-                        }
-                    }))
-            )
+    ctx.bindSpawn(
+            ctx.risingEdge(()-> ctx.gamepad1().dpad_down),exec(()->{
+                    states.flywheelReversed = !states.flywheelReversed;
+            })
     );
+
+
+
+
     ctx.dropToScheduler();
 
 });

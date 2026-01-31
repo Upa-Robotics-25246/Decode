@@ -51,8 +51,14 @@ public class turretAutoAim extends OpMode {
     public void loop() {
         double setpoint = Math.toDegrees(Math.atan2(trackPoint.getY()-follower.getPose().getY(),
                 trackPoint.getX()-follower.getPose().getX()));
-
+        if(setpoint>180){
+            setpoint = 180;
+        }else if(setpoint<-180){
+            setpoint = -180;
+        }
             pid.setGoal(new KineticState(setpoint,0));
+
+
 
 
         turret.setPower(pid.calculate(new KineticState(getDegrees(),0)));
