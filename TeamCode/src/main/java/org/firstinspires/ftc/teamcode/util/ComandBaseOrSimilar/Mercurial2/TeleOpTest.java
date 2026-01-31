@@ -11,6 +11,7 @@ import static java.lang.Math.abs;
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.exec;
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.loop;
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.sequence;
+import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.waitSeconds;
 import static dev.frozenmilk.dairy.mercurial.continuations.Continuations.waitUntil;
 
 
@@ -29,7 +30,7 @@ public class TeleOpTest {
         ControlSystem flypidf;
         PIDCoefficients pidCoefficients = FlypidCoefficients;
         BasicFeedforwardParameters ff = Flyff;
-        double velocity;
+        double velocity = 1000;
         boolean flywheelPID = false;
         double hoodPos=0;
 
@@ -124,14 +125,30 @@ public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->
 
                     waitUntil(ctx::inLoop),
                     loop(exec(() -> {
+                        flywheel.setPower(states.flypidf.calculate(new KineticState(
+                            0, flywheel.getVelocity())));
                         if(states.flywheelPID) {
                             states.flypidf.setGoal(new KineticState(0, states.velocity));
+
+                            sequence(
+                                    exec(()->transfer.setPower(-1)),
+                                    exec(()->waitSeconds(0.25)),
+                                    exec(()->transfer.setPower(1)),
+                                    exec(()->waitSeconds(0.25)),
+                                    exec(()->transfer.setPower(0)),
+                                    exec(()->waitSeconds(0.25)),
+                                    exec(()->transfer.setPower(1)),
+                                    exec(()->waitSeconds(0.25)),
+                                    exec(()->transfer.setPower(0)),
+                                    exec(()->waitSeconds(0.25)),
+                                    exec(()->transfer.setPower(1))
+                            );
+
                         }else{
                             states.flypidf.setGoal(new KineticState(0, 0));
                         }
                         //velocity = gotten from regression
-                        flywheel.setPower(states.flypidf.calculate(new KineticState(
-                                0, flywheel.getVelocity())));
+
                     }))
             )
     );
@@ -222,16 +239,16 @@ public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->
 
                                 break;
                             case EXTAKE:
-                                intake.setPower(-0.75);
+                                intake.setPower(-1);
                                 transfer.setPower(-1);
                                 break;
                             case INTAKETRANS:
-                                intake.setPower(0.75);
+                                intake.setPower(1);
                                 transfer.setPower(1);
                                 break;
                             case TRANS:
                                 intake.setPower(0);
-                                transfer.setPower(0.75);
+                                transfer.setPower(1);
                                 break;
                         }
                     }))

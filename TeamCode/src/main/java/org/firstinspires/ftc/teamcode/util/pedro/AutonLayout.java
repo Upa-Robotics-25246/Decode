@@ -16,7 +16,7 @@ public class AutonLayout extends OpMode {
     private int pathState;
     // poses go here
     private final Pose startPose = GlobalVariables.startPoseFarBlue;
-    private final Pose scorePose = GlobalVariables.scorePoseFarBlue;
+
 
     public void buildPaths(){
         //put paths here

@@ -6,10 +6,15 @@ import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.seattlesolvers.solverslib.controller.PIDController;
 
 import org.firstinspires.ftc.teamcode.util.pedro.Constants;
 import org.firstinspires.ftc.teamcode.util.GlobalVariables;
+
+import dev.nextftc.control.ControlSystem;
+import dev.nextftc.control.KineticState;
+import dev.nextftc.control.feedback.PIDCoefficients;
+import dev.nextftc.control.feedforward.BasicFeedforwardParameters;
+
 @Configurable
 @TeleOp(name = "ABSOLUTE WEEWOO")
 public class turretAutoAim extends OpMode {
@@ -20,12 +25,15 @@ public class turretAutoAim extends OpMode {
     Pose startPose = GlobalVariables.startPoseFarBlue;
     double ppr = 751.8;// from motor, idk the motor im using rn
 
-    PIDController controller;
-    public static double p = 0,i = 0, d =0;
-    double gearRatio = 1/(1.675);
+    ControlSystem pid;
+
+
+
+    double gearRatio = 1/(4.6);
     double getDegrees(){
         return turret.getCurrentPosition() * 360.0/(ppr*gearRatio);
     }
+    public static PIDCoefficients turretpid = new PIDCoefficients(0,0,0);
 
     @Override
     public void init() {
@@ -33,20 +41,25 @@ public class turretAutoAim extends OpMode {
         follower.setStartingPose(startPose);
         turret = hardwareMap.get(DcMotorEx.class,"turret");
 
-        controller = new PIDController(p,i,d);
+        pid = ControlSystem.builder()
+                .velPid(turretpid)
+                .build();
 
     }
 
     @Override
     public void loop() {
-        double setpoint = Math.atan2(trackPoint.getY()-follower.getPose().getY(),
-                trackPoint.getX()-follower.getPose().getX());
+        double setpoint = Math.toDegrees(Math.atan2(trackPoint.getY()-follower.getPose().getY(),
+                trackPoint.getX()-follower.getPose().getX()));
 
-        controller.setPID(p,i,d);
+            pid.setGoal(new KineticState(setpoint,0));
 
-        double power = controller.calculate(getDegrees(),Math.toDegrees(setpoint));
 
-        turret.setPower(power);
+        turret.setPower(pid.calculate(new KineticState(getDegrees(),0)));
+        telemetry.addData("setPoint",setpoint);
+        telemetry.addData("turretPos",turret.getCurrentPosition());
+        telemetry.addData("turretAngle",getDegrees());
+        telemetry.update();
 
 
 
