@@ -155,15 +155,53 @@ public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->
 
                         break;
                     case EXTAKE:
-                        intake.setPower(-0.75);
-                        transfer.setPower(-1);
+                        State.intakeTransState = State.IntakeTransState.OFF;
                         break;
                     case INTAKETRANS:
-                        intake.setPower(0.75);
-                        transfer.setPower(1);
+                        State.intakeTransState = State.IntakeTransState.OFF;
+                        break;
                     case TRANS:
-                        intake.setPower(0);
-                        transfer.setPower(0.75);
+                        State.intakeTransState = State.IntakeTransState.OFF;
+                        break;
+                }
+            })
+    );
+    //transfer
+    ctx.bindSpawn(
+            ctx.risingEdge(()-> ctx.gamepad1().a),exec(()->{
+                switch(State.intakeTransState){
+                    case OFF:
+                        State.intakeTransState = State.IntakeTransState.TRANS;
+
+                        break;
+                    case EXTAKE:
+                        State.intakeTransState = State.IntakeTransState.OFF;
+                        break;
+                    case INTAKETRANS:
+                        State.intakeTransState = State.IntakeTransState.OFF;
+                        break;
+                    case TRANS:
+                        State.intakeTransState = State.IntakeTransState.OFF;
+                        break;
+                }
+            })
+    );
+    ctx.bindSpawn(
+            ctx.risingEdge(()-> ctx.gamepad1().x),exec(()->{
+                switch(State.intakeTransState){
+                    case OFF:
+                        State.intakeTransState = State.IntakeTransState.EXTAKE;
+
+                        break;
+                    case EXTAKE:
+                        State.intakeTransState = State.IntakeTransState.OFF;
+                        break;
+                    case INTAKETRANS:
+                        State.intakeTransState = State.IntakeTransState.OFF;
+                        break;
+                    case TRANS:
+                        State.intakeTransState = State.IntakeTransState.OFF;
+                        break;
                 }
             })
     );
@@ -185,9 +223,11 @@ public static Mercurial.RegisterableProgram TeleOpTest = Mercurial.teleop(ctx ->
                             case INTAKETRANS:
                                 intake.setPower(0.75);
                                 transfer.setPower(1);
+                                break;
                             case TRANS:
                                 intake.setPower(0);
                                 transfer.setPower(0.75);
+                                break;
                         }
                     }))
             )
